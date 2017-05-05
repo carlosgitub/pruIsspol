@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:spring="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <bean id="activemq" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+        <property name="userName" value="admin"/>
+        <property name="password" value="admin"/>
+        <property name="trustAllPackages" value="true"/>
+    </bean>
+
+    <spring:camelContext id="client">
+        <spring:proxy id="usuarioService" serviceInterface="ec.org.isspol.route.security.service.UsuarioService"
+        serviceUrl="activemq:usuario?replyTo=queue:usuario.reply"/>
+    </spring:camelContext>
+    <spring:camelContext id="clientComun">
+        <spring:proxy id="comunServicio" serviceInterface="ec.org.isspol.route.comun.service.ComunServicio"
+                      serviceUrl="activemq:comun?replyTo=queue:comun.reply"/>
+    </spring:camelContext>
+    <spring:camelContext id="clientAuditoria">
+        <spring:proxy id="auditoriaServicio" serviceInterface="ec.org.isspol.route.auditoria.service.AuditoriaServicio"
+                      serviceUrl="activemq:auditoria?replyTo=queue:auditoria.reply"/>
+    </spring:camelContext>
+
+    <spring:camelContext id="camelClientAfiliacion" >
+        <spring:proxy id="afiliacionCola"
+                      serviceInterface="ec.org.isspol.route.security.service.IAfiliacionServiceBean"
+                      serviceUrl="activemq:afiliacionCola?replyTo=queue:afiliacionCola.reply"/>
+    </spring:camelContext>
+</beans>

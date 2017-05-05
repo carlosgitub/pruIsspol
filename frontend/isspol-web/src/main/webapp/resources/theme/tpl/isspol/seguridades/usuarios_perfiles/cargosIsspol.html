@@ -1,0 +1,143 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">CARGOS</h1>
+</div>
+
+<div ng-controller="CargosIsspol as vm">
+
+    <div class="hbox text-left b-b b-light text-sm">
+        <div class="bg-light lter b-b wrapper-md" style="heRight: 70px; padding: 10px;">
+            <button ng-if="!vm.cargo&&!vm.objCargo?true:false" class="pull-rigth btn m-b-xs btn-sm btn-dark btn-addon "
+                    type="reset" ng-click="vm.nuevoCargo()">
+                <i class="fa fa-plus"></i>
+                <span>Nuevo</span>
+            </button>
+
+
+            <button ng-if="vm.cargo" class="pull-rigth btn m-b-xs btn-sm btn-success btn-addon "
+                    type="submit" ng-click="vm.guardar(vm.cargo)">
+                <i class="fa fa-save block m-b-xs fa-2x "></i>
+                <span>Guardar</span>
+            </button>
+            <button ng-if="vm.cargo||vm.objCargo?true:false"
+                    class="pull-rigth btn m-b-xs btn-sm btn-warning btn-addon"
+                    type="submit" ng-click="vm.cancelar()">
+                <i class="fa fa-ban block m-b-xs fa-2x "></i>
+                <span>Cancelar</span>
+            </button>
+
+
+
+        </div>
+    </div>
+
+    <div ng-if="!vm.cargo" class="panel panel-defaul panel-body">
+        <div ng-if="vm.objCargo">
+            <div class="panel-body">
+
+            <div class="row row-fluid ">
+
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Id: </label>
+                    </div>
+
+                    <div class="col-md-5 bg-light">
+                        <label> {{vm.objCargo.id}}</label>
+                    </div>
+            </div>
+
+            <div class="row row-fluid ">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                    <label>*Nombre: </label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label> {{vm.objCargo.nombre}}</label>
+                    </div>
+            </div>
+        </div>
+        </div>
+        <div ng-if="!vm.objCargo">
+            <table class="table table-condensed table-bordered table-striped" show-filter="true">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>OPCIONES</th>
+                </tr>
+                </thead>
+
+                <tr ng-repeat="iterador in vm.lstCargos">
+                    <td>{{iterador.id}}</td>
+                    <td>{{iterador.nombre}}</td>
+                    <td>
+                        <div class="text-center" style="width: 200px">
+                            <button class="btn btn-info btn-xs"
+                                    ng-click="vm.editarCargo(iterador,$index)">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button>
+                            <button class="btn btn-primary btn-xs"
+                                    ng-click="vm.visualizarObjeto(iterador)">
+                                <i class="glyphicon glyphicon-eye-open"></i>
+                            </button>
+                            <button class="btn btn-danger btn-xs"
+                                    ng-click="vm.eliminarCargo(iterador)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="panel bg-light " ng-if="vm.cargo">
+        <div class="row">
+            <div class="col-sm-9">
+                <tabset class="tab-container">
+                    <tab heading="CARGOS">
+                        <form ng-if="vm.cargo" name="formCargos" id="formCargos" class="form-validation">
+                            <div>
+
+
+                                <div class="line-sm"/>
+                                <div class="row  ">
+                                    <div class="col-sm-10">
+
+                                        <label class="l-h-0x">Id: </label>
+
+
+                                        <div>
+                                            <input type="number" ng-model="vm.cargo.id"
+                                                   class="form-control"
+                                                   placeholder="Ingrese el Id" required/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line-sm"/>
+                                <div class="row  ">
+                                    <div class="col-sm-10">
+
+                                        <label class="l-h-0x">*Nombre: </label>
+
+
+                                        <div>
+                                            <input type="text" ng-model="vm.cargo.nombre"
+                                                   class="form-control"
+                                                   placeholder="Ingrese el nombre del Cargo" required/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="line"/>
+                            <div class="alert alert-info col-sm-10">
+                                <strong>NOTA:</strong> Los campos se&ntilde;alados con (*) son obligatorios.
+                            </div>
+                            <div class="line-sm"></div>
+                        </form>
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+    </div>
+
+
+</div>

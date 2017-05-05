@@ -1,0 +1,122 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <!--tx:method name="find*" propagation="REQUIRED" read-only="true"/-->
+            <tx:method name="get*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <!-- DAOs -->
+    <bean id="estadoUsuarioDao" class="ec.org.isspol.persistence.dao.security.impl.EstadoUsuarioDaoImpl"/>
+    <bean id="horarioDao" class="ec.org.isspol.persistence.dao.security.impl.HorarioDaoImpl"/>
+    <bean id="oficinaDao" class="ec.org.isspol.persistence.dao.security.impl.OficinaDaoImpl"/>
+    <bean id="usuarioDao" class="ec.org.isspol.persistence.dao.security.impl.UsuarioDaoImpl"/>
+    <bean id="grupoDao" class="ec.org.isspol.persistence.dao.security.impl.GrupoDaoImpl"/>
+    <bean id="estructuraOrganizacionalDao"
+          class="ec.org.isspol.persistence.dao.security.impl.EstructuraOrganizacionalDaoImpl"/>
+    <bean id="sucursalDao" class="ec.org.isspol.persistence.dao.security.impl.SucursalDaoImpl"/>
+    <bean id="usuarioOficinaDao" class="ec.org.isspol.persistence.dao.security.impl.UsuarioOficinaDaoImpl"/>
+    <bean id="estacionDao" class="ec.org.isspol.persistence.dao.security.impl.EstacionDaoImpl"/>
+    <bean id="estacionUsuarioDao" class="ec.org.isspol.persistence.dao.security.impl.EstacionUsuarioDaoImpl"/>
+    <bean id="grupoUsuarioDao" class="ec.org.isspol.persistence.dao.security.impl.GrupoUsuarioDaoImpl"/>
+    <bean id="comunDao" class="ec.org.isspol.persistence.dao.comun.impl.ComunDaoImpl"/>
+    <bean id="parametroDao" class="ec.org.isspol.persistence.dao.comun.impl.ParametroDaoImpl"/>
+    <bean id="logNotificacionDao" class="ec.org.isspol.persistence.dao.comun.impl.LogNotificacionDaoImpl"/>
+    <bean id="procesoNotificacionDao" class="ec.org.isspol.persistence.dao.comun.impl.ProcesoNotificacionDaoImpl"/>
+    <bean id="opcionDao" class="ec.org.isspol.persistence.dao.security.impl.OpcionDaoImpl"/>
+    <bean id="carpetaOpcionDao" class="ec.org.isspol.persistence.dao.security.impl.CarpetaOpcionDaoImpl"/>
+    <bean id="iconoDao" class="ec.org.isspol.persistence.dao.security.impl.IconoDaoImpl"/>
+    <bean id="provinciaDao" class="ec.org.isspol.persistence.dao.comun.impl.ProvinciaDaoImpl"/>
+    <bean id="cantonDao" class="ec.org.isspol.persistence.dao.comun.impl.CantonDaoImpl"/>
+    <bean id="tokenDao" class="ec.org.isspol.persistence.dao.security.impl.TokenDaoImpl"/>
+    <bean id="tipoOficinaDao" class="ec.org.isspol.persistence.dao.security.impl.TipoOficinaDaoImpl"/>
+    <bean id="estadoDao" class="ec.org.isspol.persistence.dao.comun.impl.EstadoDaoImpl"/>
+    <bean id="funcionProcedimientoAlmacenadoDao" class="ec.org.isspol.persistence.dao.procedimiento.impl.FuncionProcedimientoAlmacenadoDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <!-- SVC's -->
+    <bean id="oficinaSvc" class="ec.org.isspol.persistence.service.security.impl.OficinaSvcImpl">
+        <property name="oficinaDao" ref="oficinaDao"/>
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="grupoSvc" class="ec.org.isspol.persistence.service.security.impl.GrupoSvcImpl">
+        <property name="grupoDao" ref="grupoDao"/>
+    </bean>
+    <bean id="estadoUsuarioSvc" class="ec.org.isspol.persistence.service.security.impl.EstadoUsuarioSvcImpl">
+        <property name="estadoUsuarioDao" ref="estadoUsuarioDao"/>
+    </bean>
+    <bean id="horarioSvc" class="ec.org.isspol.persistence.service.security.impl.HorarioSvcImpl">
+        <property name="horarioDao" ref="horarioDao"/>
+    </bean>
+    <bean id="usuarioSvc" class="ec.org.isspol.persistence.service.security.impl.UsuarioSvcImpl">
+        <property name="usuarioDao" ref="usuarioDao"/>
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="estacionSvc" class="ec.org.isspol.persistence.service.security.impl.EstacionSvcImpl">
+        <property name="estacionDao" ref="estacionDao"/>
+    </bean>
+    <bean id="estacionUsuarioSvc" class="ec.org.isspol.persistence.service.security.impl.EstacionUsuarioSvcImpl">
+        <property name="estacionUsuarioDao" ref="estacionUsuarioDao"/>
+    </bean>
+    <bean id="grupoUsuarioSvc" class="ec.org.isspol.persistence.service.security.impl.GrupoUsuarioSvcImpl">
+        <property name="grupoUsuarioDao" ref="grupoUsuarioDao"/>
+    </bean>
+    <bean id="usuarioOficinaSvc" class="ec.org.isspol.persistence.service.security.impl.UsuarioOficinaSvcImpl">
+        <property name="usuarioOficinaDao" ref="usuarioOficinaDao"/>
+    </bean>
+    <bean id="parametroSvc" class="ec.org.isspol.persistence.service.comun.impl.ParametroSvcImpl">
+        <property name="parametroDao" ref="parametroDao"/>
+    </bean>
+    <bean id="logNotificacionSvc" class="ec.org.isspol.persistence.service.comun.impl.LogNotificacionSvcImpl">
+        <property name="logNotificacionDao" ref="logNotificacionDao"/>
+    </bean>
+    <bean id="procesoNotificacionSvc" class="ec.org.isspol.persistence.service.comun.impl.ProcesoNotificacionSvcImpl">
+        <property name="procesoNotificacionDao" ref="procesoNotificacionDao"/>
+    </bean>
+    <bean id="opcionSvc" class="ec.org.isspol.persistence.service.security.impl.OpcionSvcImpl">
+        <property name="opcionDao" ref="opcionDao"/>
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="carpetaOpcionSvc" class="ec.org.isspol.persistence.service.security.impl.CarpetaOpcionSvcImpl">
+        <property name="carpetaOpcionDao" ref="carpetaOpcionDao"/>
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="iconoSvc" class="ec.org.isspol.persistence.service.security.impl.IconoSvcImpl">
+        <property name="iconoDao" ref="iconoDao"/>
+    </bean>
+    <bean id="tokenSvc" class="ec.org.isspol.persistence.service.security.impl.TokenSvcImpl">
+        <property name="tokenDao" ref="tokenDao"/>
+    </bean>
+    <bean id="estructuraOrganizacionalSvc" class="ec.org.isspol.persistence.service.security.impl.EstructuraOrganizacionalSvcImpl">
+        <property name="estructuraOrganizacionalDao" ref="estructuraOrganizacionalDao"/>
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="comunSvc" class="ec.org.isspol.persistence.service.comun.impl.ComunSvcImpl">
+        <property name="comunDao" ref="comunDao"/>
+        <property name="provinciaDao" ref ="provinciaDao"/>
+        <property name="cantonDao" ref = "cantonDao"/>
+        <property name="estadoDao" ref = "estadoDao"/>
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="logSvc" class="ec.org.isspol.persistence.service.auditoria.impl.LogSvcImpl">
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="tipoOficinaSvc" class="ec.org.isspol.persistence.service.security.impl.TipoOficinaSvcImpl">
+        <property name="tipoOficinaDao" ref="tipoOficinaDao"/>
+    </bean>
+
+    
+</beans>

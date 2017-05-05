@@ -1,0 +1,962 @@
+<div class="bg-white  b-b wrapper-sm">
+    <i class="pull-right  fa fa-users  icon text-success"></i>
+    <span>
+        <h1 class="small">USUARIOS Y PERFILES</h1>
+    </span>
+
+</div>
+
+<div ng-controller="UsuariosPerfiles as vm">
+    <div class="bg-light lter b-b">
+        <button ng-if="!vm.objUsuario" class="pull-rigth btn  btn-sm btn-dark btn-addon"
+                type="reset" ng-click="vm.nuevo()">
+            <i class="fa fa-plus"></i>
+            <span>Nuevo</span>
+        </button>
+
+        <button ng-if="vm.objUsuario" class="pull-rigth btn  btn-sm btn-dark btn-addon "
+                type="submit" ng-click="vm.nuevaLinea()">
+            <i class="fa fa-bars block m-b-xs fa-2x "></i>
+            <span>Nuevo</span>
+        </button>
+        <button ng-if="vm.objUsuario" class="pull-rigth btn  btn-sm btn-success btn-addon "
+                type="submit" ng-click="vm.guardar()">
+            <i class="fa fa-save block m-b-xs fa-2x "></i>
+            <span>Guardar</span>
+        </button>
+        <button ng-if="vm.objUsuario && !vm.mostarBtnCancelaLin ? true : false"
+                class="pull-rigth btn  btn-sm btn-warning btn-addon"
+                type="submit" ng-click="vm.cancelar()">
+            <i class="fa fa-ban block m-b-xs fa-2x "></i>
+            <span>Cancelar</span>
+        </button>
+
+        <button ng-if="vm.objUsuario && vm.mostarBtnCancelaLin ? true : false"
+                class="pull-rigth btn  btn-sm btn-info btn-addon"
+                type="submit" ng-click="vm.cancelarIngresoLineas()">
+            <i class="fa fa-ban block m-b-xs fa-2x "></i>
+            <span>Cancelar</span>
+        </button>
+
+
+    </div>
+
+
+    <div ng-if="!vm.objUsuario" class="panel panel-defaul panel-body">
+
+        <table class="table table-condensed table-bordered table-striped">
+
+            <thead>
+            <tr>
+                <th class="small text-center" translate="siisspol.usuario_perfiles.usuario"/>
+                <th class="small text-center" translate="siisspol.usuario_perfiles.identificacion"/>
+                <th class="small text-center" translate="siisspol.usuario_perfiles.apellidopaterno"/>
+                <th class="small text-center" translate="siisspol.usuario_perfiles.apellidomaterno"/>
+                <th class="small text-center" translate="siisspol.usuario_perfiles.nombres"/>
+                <th class="small text-center" translate="siisspol.usuario_perfiles.correo"/>
+                <th class="small text-center" translate="siisspol.comun.accion"/>
+            </tr>
+            </thead>
+
+            <tr ng-repeat="iterador in vm.lstUsers">
+                <td class="text-center">{{iterador.idUsuario}}</td>
+                <td class="text-center">{{iterador.identificacion}}</td>
+                <td class="text-center">{{iterador.personaTipoSubtipo.persona.apellidoPaterno}}</td>
+                <td class="text-center">{{iterador.personaTipoSubtipo.persona.apellidoMaterno}}</td>
+                <td class="text-center">{{iterador.personaTipoSubtipo.persona.nombre}}</td>
+                <td class="text-center">{{iterador.email}}</td>
+
+                <td>
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-xs" tooltip="{{'siisspol.comun.ver' | translate}}"
+                                ng-click="vm.visualizarUsuarios(iterador,$index)">
+                            <i class="glyphicon glyphicon-eye-open"></i>
+                        </button>
+                        <button class="btn btn-info btn-xs" tooltip="{{'siisspol.comun.editar' | translate}}"
+                                ng-click="vm.editarUsuario(iterador)">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-xs" tooltip="{{'siisspol.comun.eliminar' | translate}}"
+                                ng-click="vm.elimiarRegistro($index)">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </button>
+                        <button class="btn btn-success btn-xs"
+                                ng-click="vm.copiarUsuario(iterador)">
+                            <i class="glyphicon glyphicon-paperclip"></i>
+                        </button>
+                        <button class="btn btn-warning btn-xs"
+                                tooltip="{{'siisspol.usuario_perfiles.cambioClave' | translate}}"
+                                ng-click="vm.cambioClave(iterador)">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div class="panel bg-white " ng-if="vm.objUsuario">
+        <div class="row">
+            <div class="col-sm-9">
+                <tabset class="tab-container" ng-init="steps={step1:true, step2:false, step3:false}">
+                    <tab class="tab-style" select="vm.seleccionarTab(1);">
+                        <tab-heading>
+                            <span translate="siisspol.usuario_perfiles.usuario"/>
+                        </tab-heading>
+                        <form id="formUsuarios" name="formUsuarios" class="form-validation">
+                            <div>
+                                <div class="row-row">
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x" style="height: 10%;">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.usuario"/>
+                                        </label>
+                                        <div>
+                                            <input ng-model="vm.objUsuario.idUsuario" class="col-0 form-control"
+                                                   readonly required/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line-sm"/>
+                                <div class="row-row">
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x" style="height: 10%;">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.numeroidentificacion"/>
+                                        </label>
+                                        <div>
+                                            <input mask="9999999999" ng-model="vm.objUsuario.identificacion"
+                                                   maxlength="13"
+                                                   class="form-control"
+                                                   onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                                   ng-blur="vm.validarFormularioInsertarUsuario(vm.objUsuario)"
+                                                   required ng-readonly="vm.objUsuario.usuarioSecuencial != null"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line-sm"/>
+                                <div class="row-row">
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x" style="height: 10%;">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.apellidopaterno"/>
+                                        </label>
+                                        <div>
+                                            <input ng-model="vm.userTemp.apellidoPaterno"
+                                                   class="form-control" ng-if="vm.userTemp.apellidoPaterno != null"
+                                                   readonly>
+                                            <input ng-model="vm.objUsuario.personaTipoSubtipo.persona.apellidoPaterno"
+                                                   class="form-control" ng-if="vm.userTemp.apellidoPaterno == null"
+                                                   readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line-sm"/>
+                                <div class="row-row">
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x" style="height: 10%;">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.apellidomaterno"/>
+                                        </label>
+                                        <div>
+                                            <input ng-model="vm.userTemp.apellidoMaterno"
+                                                   class="form-control" ng-if="vm.userTemp.apellidoMaterno != null"
+                                                   readonly>
+                                            <input ng-model="vm.objUsuario.personaTipoSubtipo.persona.apellidoMaterno"
+                                                   class="form-control" ng-if="vm.userTemp.apellidoMaterno == null"
+                                                   readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line-sm"/>
+                                <div class="row-row">
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x" style="height: 10%;">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.nombres"/>
+                                        </label>
+                                        <div>
+                                            <input ng-model="vm.userTemp.nombres"
+                                                   class="form-control" ng-if="vm.userTemp.nombres != null" readonly>
+                                            <input ng-model="vm.objUsuario.personaTipoSubtipo.persona.nombres"
+                                                   class="form-control" ng-if="vm.userTemp.nombres == null" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line-sm"/>
+                                <div class="row-row">
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x" style="height: 10%;">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.correo"/>
+                                        </label>
+                                        <div>
+                                            <input ng-model="vm.objUsuario.email" type="email" class="form-control"
+                                                   required
+                                                   readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line-sm"/>
+                                <div cclass="row-row">
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x" style="height: 10%;">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.estado"/>
+                                        </label>
+                                        <div>
+                                            <div>
+                                                <select class="form-control"
+                                                        ng-options="estadoUsuario.descripcion for estadoUsuario in vm.lstEstado track by estadoUsuario.idEstadoUsuario"
+                                                        ng-model="vm.objUsuario.estadoUsuario"
+                                                        ng-readonly="vm.objUsuario.usuarioSecuencial==null" required>
+                                                    <option value="" translate="siisspol.usuario_perfiles.seleccione"/>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line-sm"/>
+                                <div class="row-row">
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.estructuraorg"/>
+                                        </label>
+                                        <div>
+                                            <div>
+                                                <select class="form-control"
+                                                        ng-options="estructura.label for estructura in vm.lstEstructura track by estructura.id"
+                                                        ng-model="vm.objUsuario.estructuraOrganizacional" required>
+                                                    <option value="" translate="siisspol.usuario_perfiles.seleccione"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="line-sm"/>
+                                <div class="row-row">
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x">
+                                            <span translate="siisspol.usuario_perfiles.superior"/>
+                                        </label>
+                                        <div>
+                                            <div>
+                                                <select class="form-control"
+                                                        ng-options="usuario.nombres for usuario in vm.lstUsers track by usuario.idUsuario"
+                                                        ng-model="vm.objUsuario.usuario">
+                                                    <option value="" translate="siisspol.usuario_perfiles.seleccione"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="line"/>
+                            <div class="line-sm"/>
+                            <div class="col-sm-10 alert alert-info col-sm-10">
+                                <strong><span translate="siisspol.usuario_perfiles.importante"/>:</strong>
+                                <span translate="siisspol.usuario_perfiles.camposobligatorios"/>
+                            </div>
+                            <div class="line-sm"/>
+                            <div class="form-group" ng-if="vm.objUsuario.bloqueada">
+                                <label class="col-sm-2 control-label error">
+                                    <span translate="siisspol.usuario_perfiles.cuentabloqueada"/>
+                                </label>
+                                <div>
+                                    <button class="pull-rigth btn  btn-sm btn-info btn-addon"
+                                            type="submit" ng-click="vm.desbloquearCuenta(vm.objUsuario)">
+                                        <i class="fa fa-unlock" aria-hidden="true"></i>
+                                        <span translate="siisspol.comun.desbloquear"/>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="line-sm"/>
+                            <div>
+                                <div ng-init="vm.accessConfig=false">
+                                    <label class="col-sm-10 font-bold">
+                                        <span translate="siisspol.usuario_perfiles.configuraracceso"/>
+                                    </label>
+                                    <div class="line"/>
+                                    <div class="col-sm-10" ng-init="vm.accessConfig=false">
+                                        <label class="i-switch i-switch-md bg-info m-t-xs m-r">
+                                            <input ng-model="vm.accessConfig"
+                                                   type="checkbox" checked> <i></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div ng-if="vm.accessConfig">
+                                    <div class="line"/>
+                                    <div class="form-group">
+                                        <label class="col-sm-10 control-label">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.cualquierestacion"/>
+                                        </label>
+                                        <div>
+                                            <label class="i-switch i-switch-md bg-warning m-t-xs m-r">
+                                                <input ng-model="vm.objUsuario.cualquierEstacion"
+                                                       type="checkbox"> <i></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="line"/>
+                                    <div class="form-group">
+                                        <label class="col-sm-10 control-label">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.horario"/>
+                                        </label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control"
+                                                    ng-options="horario.descripcion for horario in vm.lstHorarios track by horario.idHorario"
+                                                    ng-model="vm.objUsuario.horario" required>
+                                                <option value="" translate="siisspol.usuario_perfiles.seleccione"/>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="line"/>
+                                    <div class="form-group">
+                                        <label class="col-sm-10 control-label">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.dashboardinicial"/>
+                                        </label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control"
+                                                    ng-options="dashBoard.nombre for dashBoard in vm.lstDashBoard track by dashBoard.id"
+                                                    ng-model="vm.objUsuario.idDashboardInicio" required>
+                                                <option value="" translate="siisspol.usuario_perfiles.seleccione"/>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="line"/>
+                                    <div class="form-group">
+                                        <label class="col-sm-10 control-label">
+                                            <span translate="siisspol.usuario_perfiles.tiempoinactividad"/> [ms]
+                                        </label>
+                                        <div class="col-sm-10">
+                                            <input type="number" class="form-control"
+                                                   onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                                   ng-maxlength="6"
+                                                   ng-readonly="vm.objUsuario.usuarioSecuencial == null"
+                                                   ng-model="vm.objUsuario.tiempoInactividad"/>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="line"/>
+                            <div class="line"/>
+                            <div>
+                                <div ng-init="vm.password=false">
+                                    <label class="col-sm-10 font-bold">
+                                        *
+                                        <span translate="siisspol.usuario_perfiles.contrasena"/>
+                                    </label>
+                                    <div class="line"/>
+                                    <div class="col-sm-10">
+                                        <label class="i-switch i-switch-md bg-info m-t-xs m-r"> <input
+                                                ng-model="vm.password" type="checkbox" checked/><i></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="panel-body" ng-if="vm.password">
+                                    <div class="line"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-10 control-label">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.debecambiarpassword"/>
+                                        </label>
+                                        <div>
+                                            <label class="i-switch i-switch-md bg-primary m-t-xs m-r">
+                                                <input ng-model="vm.objUsuario.cambiarPwdProximoLogon"
+                                                       type="checkbox"/><i></i>
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="line"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-10 control-label">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.puedecambiarpassword"/>
+                                        </label>
+                                        <div>
+                                            <label class="i-switch i-switch-md bg-primary m-t-xs m-r">
+                                                <input ng-model="vm.objUsuario.noPuedeCambiarPwd"
+                                                       type="checkbox"/><i></i>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="line"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-10 control-label">
+                                            *
+                                            <span translate="siisspol.usuario_perfiles.passwordnuncaexpira"/>
+                                        </label>
+                                        <div>
+                                            <label class="i-switch i-switch-md bg-primary m-t-xs m-r">
+                                                <input ng-model="vm.objUsuario.pwdNuncaExpira"
+                                                       type="checkbox"/><i></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line"></div>
+
+
+                        </form>
+                    </tab>
+
+                    <!--    TAB ROLES (GRUPO USUARIO)  usrGrupoUsuario  -->
+                    <!-- ------------------------------------  -->
+                    <tab heading="ROLES" disabled="formUsuarios.$invalid" select="vm.seleccionarTab(2);"
+                         ng-click="vm.notificacionBloqueo();">
+
+                        <form id="formGrupoUsuario" name="formGrupoUsuario" class="form-validation">
+
+                            <!-- Pantalla Ver GrupoUsuario: usrGrupoUsuarioVer -->
+                            <div ng-if="vm.usrGrupoUsuarioVer ? true:false">
+                                <div class="panel-body">
+                                    <div class="row row-fluid ">
+                                        <div class="row">
+                                            <div class="col-md-2 bg-primary text-right"
+                                                 style="border: solid currentColor 1px; height: 26px;">
+                                                <label>Rol Asignado: </label>
+                                            </div>
+                                        </div>
+                                        <div class="line"></div>
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Rol: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrGrupoUsuarioVer.grupo.nombre}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Estado:</label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrGrupoUsuarioVer.estado?'Activo':'Pasivo'}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Tiene Venc: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrGrupoUsuarioVer.tieneVencimiento?'Si':'No'}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Fecha Venc: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrGrupoUsuarioVer.fechaVencimiento|date:'dd/MM/yyyy
+                                                HH:MM:ss'}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Auditoría: </label>
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Usuario Creación: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrGrupoUsuarioVer.creacionUsuario}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Fecha Creación: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrGrupoUsuarioVer.creacionFecha|date:'dd/MM/yyyy
+                                                HH:MM:ss'}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Equipo Creación: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrGrupoUsuarioVer.creacionEquipo}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Usuario Modif: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrGrupoUsuarioVer.modificaUsuario}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Fecha Modif: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrGrupoUsuarioVer.modificaFecha|date:'dd/MM/yyyy
+                                                HH:MM:ss'}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Equipo Modif: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrGrupoUsuarioVer.modificaEquipo}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="vm.usrGrupoUsuario ? true:false" class="panel wrapper-md">
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x">
+                                            *ROL
+                                        </label>
+                                    </div>
+
+                                    <div>
+                                        <select class="form-control"
+                                                ng-options="grupo.nombre for grupo in vm.lstGrupo track by grupo.idGrupo"
+                                                ng-model="vm.usrGrupoUsuario.grupo"></select>
+                                    </div>
+                                </div>
+
+                                <div class="line-sm"/>
+                                <div class="row">
+
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x">
+                                            *ESTADO
+                                        </label>
+                                    </div>
+
+                                    <div>
+                                        <select class="form-control"
+                                                ng-options="estado.descripcion for estado in vm.lstEstadoGrupoUsuario track by estado.idEstado"
+                                                ng-model="vm.usrGrupoUsuario.estado"></select>
+                                    </div>
+                                </div>
+
+                                <div class="line-sm"/>
+                                <div class="row  ">
+
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x">
+                                            TIENE VENCIMIENTO:
+                                        </label>
+                                    </div>
+
+                                    <div>
+                                        <label class="i-switch i-switch-md bg-info m-t-xs m-r">
+                                            <input type="checkbox" ng-model="vm.usrGrupoUsuario.tieneVencimiento" checked/>
+                                            <i></i>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="line-sm"/>
+                                <div ng-if="vm.usrGrupoUsuario.tieneVencimiento" class="row">
+
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x">
+                                            FECHA VENCIMIENTO:
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <input ng-model="vm.usrGrupoUsuario.fechaVencimiento" type="date"
+                                               placeholder=" a&ntilde;o /mes/d&iacute;a" class="col-sm-3 form-control"
+                                               required>
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+                                <div class="alert alert-info">
+                                    <strong>NOTA:</strong> Los campos se&ntilde;alados con (*) son obligatorios.
+                                </div>
+                            </div>
+
+                            <div ng-if="vm.usrGrupoUsuarioVer ? false:true" class="panel panel-defaul panel-body">
+                                <div class="row">
+                                    <table class="table table-condensed table-bordered table-striped"
+                                           show-filter="true">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">Rol</th>
+                                            <th class="text-center">Estado</th>
+                                            <th class="text-center">Tiene Vencimiento</th>
+                                            <th class="text-center">Fecha Vencimiento</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tr ng-repeat="iterador in vm.lstGrupoUsuario">
+                                            <td class="text-left" data-title="ROL">
+                                                {{iterador.grupo.nombre}}
+                                            </td>
+                                            <td class="text-center" data-title="ESTADO">
+                                                {{iterador.estado== 1?'Activo':'Inactivo'}}
+                                            </td>
+                                            <td class="text-center" data-title="VENCIMIENTO">
+                                                {{iterador.tieneVencimiento == true?'Si':'No'}}
+                                            </td>
+                                            <td class="text-center" data-title="FECHAVENCIMIENTO">
+                                                {{iterador.fechaVencimiento|date:'dd/MM/yyyy HH:MM:ss'}}
+                                            </td>
+
+                                            <td>
+                                                <div class="text-center">
+                                                    <button class="btn btn-info btn-xs"
+                                                            ng-click="vm.verGrupoUsuario(iterador,$index)">
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-info btn-xs"
+                                                            ng-click="vm.editarGrupoUsuario(iterador,$index)">
+                                                        <i class="glyphicon glyphicon-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-danger btn-xs"
+                                                            ng-click="vm.eliminarGrupoUsuario(iterador,$index)">
+                                                        <i class="glyphicon glyphicon-trash"></i>
+                                                    </button>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+
+                    </tab>
+
+                    <!--    TAB ESTACIONES   usrEstacionUsuario   -->
+                    <!-- --------------------------------  -->
+                    <tab heading="ESTACIONES" disabled="formUsuarios.$invalid" select="vm.seleccionarTab(3);"
+                         ng-click="vm.notificacionBloqueo();">
+
+                        <form id="formEstacionUsuario" name="formEstacionUsuario" class="form-validation">
+
+                            <!-- Pantalla Ver EstacionUsuario: usrEstacionUsuarioVer -->
+                            <div ng-if="vm.usrEstacionUsuarioVer ? true:false">
+                                <div class="panel-body">
+                                    <div class="row row-fluid ">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Estación Asig: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrEstacionUsuarioVer.estacion.hostname}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row row-fluid ">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Descripción: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrEstacionUsuarioVer.estacion.descripcion}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row row-fluid ">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Ip: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrEstacionUsuarioVer.estacion.ip}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row row-fluid ">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Direccion Física: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrEstacionUsuarioVer.estacion.direccionFisica}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Auditoría: </label>
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Usuario Creación: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrEstacionUsuarioVer.creacionUsuario}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Fecha Creación: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrEstacionUsuarioVer.creacionFecha|date:'dd/MM/yyyy
+                                                HH:MM:ss'}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Equipo Creación: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrEstacionUsuarioVer.creacionEquipo}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Usuario Modif: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrEstacionUsuarioVer.modificaUsuario}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Fecha Modif: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrEstacionUsuarioVer.modificaFecha|date:'dd/MM/yyyy
+                                                HH:MM:ss'}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 bg-primary text-right"
+                                             style="border: solid currentColor 1px; height: 26px;">
+                                            <label>Equipo Modif: </label>
+                                        </div>
+                                        <div class="col-md-5 bg-light">
+                                            <label>{{vm.usrEstacionUsuarioVer.modificaEquipo}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="vm.usrEstacionUsuario ? true:false" class="panel wrapper-md">
+                                <div class="row  ">
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x ">
+                                            *Estaci&oacute;n:
+                                        </label>
+                                    </div>
+
+                                    <div>
+                                        <select class="form-control"
+                                                ng-options="estacion.hostname for estacion in vm.lstEstacion track by estacion.idEstacion"
+                                                ng-model="vm.usrEstacionUsuario.estacion">
+                                        </select>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="alert alert-info">
+                                        <strong>NOTA:</strong> Los campos se&ntilde;alados con (*) son obligatorios.
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div ng-if="vm.usrEstacionUsuarioVer ? false:true" class="panel panel-defaul panel-body">
+                                <div ng-if="!vm.object">
+                                    <table class="table table-condensed table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">Estación</th>
+                                            <th class="text-center">Descripción</th>
+                                            <th class="text-center">Ip</th>
+                                            <th class="text-center">Dirección Física</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tr ng-repeat="iterador in vm.lstEstacionUsuario">
+                                            <td class="text-left" data-title="ESTACION">
+                                                {{iterador.estacion.hostname}}
+                                            </td>
+                                            <td class="text-left" data-title="DESCRIPCION">
+                                                {{iterador.estacion.descripcion}}
+                                            </td>
+                                            <td class="text-center" data-title="IP">
+                                                {{iterador.estacion.ip}}
+                                            </td>
+                                            <td class="text-center" data-title="DIRECCIONFISICA">
+                                                {{iterador.estacion.direccionFisica}}
+                                            </td>
+                                            <td>
+                                                <div class="text-center">
+                                                    <button class="btn btn-info btn-xs"
+                                                            ng-click="vm.verEstacionUsuario(iterador,$index)">
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-danger btn-xs"
+                                                            ng-click="vm.eliminarEstacionUsuario(iterador,$indexs)">
+                                                        <i class="glyphicon glyphicon-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </tab>
+
+                    <tab heading="ACTIVIDAD" disabled="formUsuarios.$invalid" select="vm.seleccionarTab(4);"
+                         ng-click="vm.notificacionBloqueo();">
+
+                        <div class="panel panel-defaul panel-body">
+
+                            <div>
+                                <table class="table table-condensed table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Tipo</th>
+                                        <th>Anterior</th>
+                                        <th>Nuevo</th>
+                                        <th>Creaci&oacute;n usuario</th>
+                                        <th>Creaci&oacute;n fecha</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tr ng-repeat="iterador in vm.logActividades">
+                                        <td class="text-center" data-title="TIPO">{{iterador.tipoActividad}}</td>
+                                        <td class="text-center" data-title="ANTERIOR">{{iterador.anteriorActividad}}
+                                        </td>
+                                        <td class="text-center" data-title="NUEVO">{{iterador.nuevoActividad}}</td>
+                                        <td class="text-center" data-title="CREACIONUSUARIO">
+                                            {{iterador.creacionUsuarioActividad}}
+                                        </td>
+                                        <td class="text-center" data-title="CREACIONFECHA">
+                                            {{iterador.creacionFechaActividad}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </tab>
+
+                    <tab heading="COORDINACIONES" disabled="formUsuarios.$invalid" select="vm.seleccionarTab(5);"
+                         ng-click="vm.notificacionBloqueo();">
+
+                        <form id="formCoordinaciones" name="formCoordinaciones" class="form-validation">
+
+                            <div ng-if="vm.object" class="panel wrapper-md">
+                                <div>
+                                    <div>
+                                        <div class="col-sm-10">
+                                            <label class="l-h-0x">Coordinaci&oacute;n: </label>
+                                            <div>
+                                                <select class="form-control" name="mySelect"
+                                                        ng-options="oficina.nombre for oficina in vm.lstCoordinaciones track by oficina.idOficina"
+                                                        ng-model="vm.object.oficina"></select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="line"/>
+                            </div>
+
+                            <div ng-if="!vm.object">
+                                <table class="table table-condensed table-bordered table-striped">
+
+                                    <thead>
+                                    <tr>
+                                        <th>Coordinaci&oacute;n</th>
+                                        <th>Creaci&oacute;n usuario</th>
+                                        <th>Creaci&oacute;n fecha</th>
+                                        <th>Modifica usuario</th>
+                                        <th>Modifica fecha</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tr ng-repeat="iterador in vm.lstCoordinaciones">
+                                        <td class="text-center" data-title="COORDINACION">{{iterador.oficina.nombre}}
+                                        </td>
+                                        <td class="text-center" data-title="CREACIONUSUARIO">
+                                            {{iterador.creacionUsuario.nombre}}
+                                        </td>
+                                        <td class="text-center" data-title="CREACIONFECHA">{{iterador.creacionFecha}}
+                                        </td>
+                                        <td class="text-center" data-title="MODIFICAUSUARIO">
+                                            {{iterador.creacionUsuario.nombre}}
+                                            x
+                                        </td>
+                                        <td class="text-center" data-title="MODIFICAFECHA">{{iterador.creacionFecha}}
+                                        </td>
+                                        <td>
+                                            <div class="text-center">
+                                                <button class="btn btn-info btn-xs"
+                                                        ng-click="vm.editarOficina(iterador,$index)">
+                                                    <i class="glyphicon glyphicon-edit"></i>
+                                                </button>
+                                                <button class="btn btn-danger btn-xs"
+                                                        ng-click="vm.eliminarOficina($index)">
+                                                    <i class="glyphicon glyphicon-trash"></i>
+                                                </button>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </form>
+                    </tab>
+
+
+                </tabset>
+            </div>
+            </br>
+            </br>
+            <div ng-if="false" class="col-sm-2 text-center">
+                <a
+                        class="block panel padder-v bg-white-opacity item">
+									<span class="font-thin font-thin h1 block">
+									<i class="fa fa-cloud-upload text-muted m-r-sm"></i>
+									</span>
+                    <span
+                            class="text-muted text-xs">Subir Imagen</span> <span
+                        class="bottom text-right w-full"> <i
+                        class="fa fa-cloud-upload text-muted m-r-sm"></i>
+								</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

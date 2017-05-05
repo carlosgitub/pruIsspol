@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>isspol-persistence</artifactId>
+        <groupId>ec.org.isspol</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>isspol-persistence-model</artifactId>
+    <name>ISSPOL :: Backend Persistence Model</name>
+    <packaging>bundle</packaging>
+
+    <properties>
+        <isspol.osgi.export.pkg>
+            ec.org.isspol.persistence.entities.security,
+            ec.org.isspol.persistence.entities.security.dto,
+            ec.org.isspol.persistence.entities.persona,
+            ec.org.isspol.persistence.entities.persona.dto,
+            ec.org.isspol.persistence.entities.auditoria,
+            ec.org.isspol.persistence.entities.auditoria.dto,
+            ec.org.isspol.persistence.entities.comun,
+            ec.org.isspol.persistence.entities.comun.dto
+        </isspol.osgi.export.pkg>
+        <isspol.osgi.import.pkg>
+            org.hibernate.proxy,
+            javassist.util.proxy,
+            *
+        </isspol.osgi.import.pkg>
+        <isspol.osgi.jpa.context>META-INF/persistence.xml</isspol.osgi.jpa.context>
+        <maven-resources/>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+    </dependencies>
+
+
+</project>

@@ -1,0 +1,241 @@
+<!DOCTYPE dwr PUBLIC
+        "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN"
+        "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+
+<dwr>
+    <init>
+        <converter id="map" class="org.directwebremoting.convert.MapConverter"/>
+        <converter id="object" class="org.directwebremoting.convert.ObjectConverter"/>
+    </init>
+
+    <allow>
+        <create creator="new" javascript="Usuario" scope="application">
+            <param name="class" value="ec.org.isspol.web.seguridades.UsuarioController"/>
+            <!--Metodos para login-->
+            <include method="listaUsuario"/>
+            <include method="obtenerFecha"/>
+            <include method="validarClaveUsuario"/>
+            <include method="obtenerInformacionSesion"/>
+            <include method="logAuditoria"/>
+            <include method="obtenerListaFavoritos"/>
+            <include method="verificarNombreUsuario"/>
+
+            <include method="insertarUsuario"/>
+            <include method="listaEstadoUsuario"/>
+            <include method="listaOficina"/>
+            <include method="listaHorario"/>
+            <include method="listaEstructura"/>
+            <include method="actualizarUsuario"/>
+            <include method="actualizarUsuarioSP"/>
+            <include method="obtenerOficinaNombreOficina"/>
+            <include method="obtenerSucursalOficina"/>
+            <include method="obtenerCarpetaOpcionPorGrupo"/>
+            <include method="obtenerOpcionUsoFrecuentes"/>
+            <include method="validarFormularioInsertarUsuario"/>
+            <include method="procUsuarioSolicitudCambioClave"/>
+            <include method="buscarTokenPorDato"/>
+            <include method="procUsuarioCambiarClave"/>
+            <include method="procUsuarioVerificarBloqueo"/>
+            <!-- Metodos CRUD Estacion - Usuario -->
+            <include method="insertarActualizarEstacionUsuario"/>
+            <include method="eliminarEstacionUsuario"/>
+            <include method="listarTodosEstacionUsuario"/>
+            <include method="buscarEstacionUsuarioPorId"/>
+            <include method="listarEstacionUsuarioPorUsuario"/>
+            <include method="listarEstacionUsuarioNoEliminadoPorUsuario"/>
+            <!-- Metodos CRUD Grupo - Usuario -->
+            <include method="insertarActualizarGrupoUsuario"/>
+            <include method="eliminarGrupoUsuario"/>
+            <include method="listarTodosGrupoUsuario"/>
+            <include method="buscarGrupoUsuarioPorId"/>
+            <include method="listarGrupoUsuarioPorUsuario"/>
+            <include method="listarGrupoUsuarioNoEliminadoPorUsuario"/>
+        </create>
+
+        <create creator="new" javascript="EstructuraOrganizacional" scope="application">
+            <param name="class" value="ec.org.isspol.web.seguridades.EstrOrganizacionalController"/>
+            <include method="insertarEstrOrganizacional"/>
+            <include method="listarEstructuraOrganizacional"/>
+            <include method="listarTodosNivelEstructuraOrg"/>
+            <include method="elimiarEstructuraOrganizacional"/>
+        </create>
+
+        <!-- Metodos CRUD Sucursal,Oficinas -->
+        <create creator="new" javascript="Sucursal" scope="application">
+            <param name="class" value="ec.org.isspol.web.seguridades.SucursalController"/>
+            <include method="insertarSucursal"/>
+            <include method="listarSucursales"/>
+            <include method="eliminarSucursal"/>
+            <include method="listarSucursalPaginado"/>
+            <include method="listarOficinaPaginado"/>
+            <include method="listarTipoOficinas"/>
+            <include method="insertarActualizarOficina"/>
+        </create>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.Sucursal"/>
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.security.Sucursal">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.security.Sucursal.oficinas"/>
+        </convert>
+		<!-- Metodos comunes -->
+        <create creator="new" javascript="Comun" scope="application">
+            <param name="class" value="ec.org.isspol.web.comun.ComunController"/>
+            <include method="listarProvincias"/>
+            <include method="listarCantonesPorProvincia"/>
+            <include method="listarEstados"/>
+            <include method="buscarSucursalPorId"/>
+        </create>
+
+        <create creator="new" javascript="OrganizacionMenu" scope="application">
+            <param name="class" value="ec.org.isspol.web.seguridades.OrganizacionMenuController"/>
+            <include method="insertarCarpetaOpcion"/>
+            <include method="listarCarpetaOpcion"/>
+        </create>
+
+
+        <create creator="new" javascript="UsuarioOficina" scope="application">
+            <param name="class" value="ec.org.isspol.web.seguridades.UsuarioOficinaController"/>
+            <include method="insertarUsuarioOficina"/>
+            <include method="listarUsuarioOficina"/>
+            <include method="listarUsuarioOficinaPorIdUsuario"/>
+        </create>
+
+
+        <create creator="new" javascript="Oficina" scope="application">
+            <param name="class" value="ec.org.isspol.web.seguridades.OficinaController"/>
+            <include method="buscarOficinaPorId"/>
+
+        </create>
+
+		<create creator="new" javascript="Grupo" scope="application">
+            <param name="class" value="ec.org.isspol.web.seguridades.GrupoController"/>
+            <include method="insertarActualizarGrupo"/>
+            <include method="eliminarGrupo"/>
+            <include method="listarGrupos"/>
+            <include method="buscarGrupoPorId"/>
+        </create>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.Grupo"/>
+        <convert converter="bean" match="ec.org.isspol.web.dto.seguridad.GrupoDto"/>
+        <!--Exclusiones-->
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.security.Grupo">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.security.Grupo.listaGrupoUsuarios"/>
+        </convert>
+
+
+
+        <create creator="new" javascript="Estacion" scope="application">
+            <param name="class" value="ec.org.isspol.web.seguridades.EstacionController"/>
+            <include method="insertarActualizarEstacion"/>
+            <include method="eliminarEstacion"/>
+            <include method="listarTodosEstacion"/>
+            <include method="buscarEstacionPorId"/>
+            <include method="listarEstacionNoEliminado"/>
+        </create>
+
+        <!-- Convertes byte[] -->
+        <convert converter="array" match="[Z"/>
+        <convert converter="array" match="[B"/>
+        <convert converter="array" match="[S"/>
+        <convert converter="array" match="[I"/>
+        <convert converter="array" match="[J"/>
+        <convert converter="array" match="[F"/>
+        <convert converter="array" match="[D"/>
+        <convert converter="array" match="[C"/>
+        <convert converter="array" match="[L*"/>
+
+        <!-- Convertes Dto's Entities-->
+        <convert converter="bean" match="ec.org.isspol.web.dto.EstructuraOrganizacionalDto"/>
+        <convert converter="bean" match="ec.org.isspol.web.dto.NivelEstructuraOrgDto"/>
+        <convert converter="bean" match="ec.org.isspol.web.dto.CarpetaOpcionDto"/>
+        <convert converter="bean" match="ec.org.isspol.web.exception.AngularException"/>
+        <convert converter="bean" match="ec.org.isspol.common.PagedResult"/>
+        <convert converter="bean" match="ec.org.isspol.common.FilterParam"/>
+
+        <!-- Convertes Entities Seguridad -->
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.Usuario"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.dto.DatosPersonaUsuario"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.TipoOficina"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.EstructuraOrganizacional"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.NivelEstructuraOrg"/>
+
+
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.Horario"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.EstadoUsuario"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.Oficina"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.Token"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.CarpetaOpcion"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.Opcion"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.Icono"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.UsuarioOficina"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.EstacionUsuario"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.GrupoUsuario"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.security.Estacion"/>
+
+
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.security.EstructuraOrganizacional">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.security.EstructuraOrganizacional.lstUsuarios"/>
+        </convert>
+
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.security.TipoOficina">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.security.TipoOficina.oficinas"/>
+        </convert>
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.comun.Empresa">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.comun.Empresa.oficinas"/>
+        </convert>
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.comun.Estado">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.comun.Estado.oficinas"/>
+        </convert>
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.comun.Provincia">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.comun.Provincia.cantons"/>
+        </convert>
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.comun.Canton">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.comun.Canton.oficinas"/>
+        </convert>
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.security.NivelEstructuraOrg">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.security.NivelEstructuraOrg.listaEstrOrg"/>
+        </convert>
+
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.security.EstadoUsuario">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.security.Usuario.usuarios"/>
+        </convert>
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.security.Oficina">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.security.Oficina.usuarios"/>
+        </convert>
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.security.Horario">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.security.Horario.horarioDetalles"/>
+        </convert>
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.security.Usuario">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.security.Usuario.usuarioCambios"/>
+            <param name="exclude" value="ec.org.isspol.persistence.entities.security.Usuario.grupoUsuarios"/>
+            <param name="exclude" value="ec.org.isspol.persistence.entities.security.Usuario.estacionUsuarios"/>
+        </convert>
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.security.Estacion">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.security.Estacion.estacionUsuarios"/>
+        </convert>
+
+        <!-- Convertes Entities Persona -->
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.persona.TipoPersona"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.persona.TipoSubtipoAfiliacion"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.persona.Persona"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.persona.PersonaTipoSubtipo"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.persona.TipoSubtipoAfiliacion"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.persona.TipoPersona"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.persona.TipoSexo"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.persona.EstadoCivil"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.persona.TipoPolicia"/>
+
+        <!--Exclusiones-->
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.persona.Persona">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.persona.Persona.carpetas"/>
+        </convert>
+        <convert converter="hibernate3" match="ec.org.isspol.persistence.entities.persona.PersonaTipoSubtipo">
+            <param name="exclude" value="ec.org.isspol.persistence.entities.persona.PersonaTipoSubtipo.dependientesForIdPersonaTipoSubtipo"/>
+        </convert>
+
+        <!-- Convertes Entities Comun -->
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.comun.Estado"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.comun.Provincia"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.comun.Canton"/>
+        <convert converter="bean" match="ec.org.isspol.persistence.entities.comun.Empresa"/>
+
+
+    </allow>
+</dwr>

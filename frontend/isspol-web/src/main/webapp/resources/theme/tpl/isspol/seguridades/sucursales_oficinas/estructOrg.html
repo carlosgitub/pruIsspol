@@ -1,0 +1,193 @@
+<div class="bg-white  b-b wrapper-sm">
+	<h1 class="small">ESTRUCTURA ORGANIZACIONAL</h1>
+</div>
+
+<div ng-controller="EstructOrg as vm">
+
+	<script type="text/ng-template" id="modal-confirmar-solicitud">
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+			<h4 class="modal-title">Seleccione una rama del arbol:</h4>
+		</div>
+
+		<div class="modal-body">
+					<div>
+						<div class="b-a bg-light dk r r-2x">
+								<abn-tree
+										tree-data         = "vm.popup_data"
+										tree-control      = "vm.popup_tree"
+										on-select         = "vm.my_tree_handlerPopUp(branch)"
+										expand-level      = "1"
+										initial-selection = "Granny Smith"
+										icon-leaf         = "fa fa-file-o"
+										icon-expand       = "fa fa-plus"
+										icon-collapse     = "fa fa-minus"
+								>
+							</abn-tree>
+					</div>
+				</div>
+		</div>
+
+		<div class="modal-footer">
+			<div class="btn-group btn-group-justified">
+				<a href class="btn btn-primary" ng-click="currentModal.close();">CANCELAR</a>
+				<a href class="btn btn-success"
+				   ng-click="currentModal.close();">ACEPTAR</a>
+			</div>
+		</div>
+	</script>
+
+
+
+
+	<div class="bg-light lter b-b">
+		<button ng-click="vm.nuevo()"  class="pull-rigth btn  btn-sm btn-dark btn-addon"
+				type="reset">
+			<i class="fa fa-plus"></i>
+			<span >Nuevo</span>
+		</button>
+
+		<button ng-if="vm.objData.id!=null? true:false" ng-click="vm.editarEstructura()"  class="pull-rigth btn btn-sm btn-info btn-addon"
+				type="reset">
+			<i class="fa fa-pencil"></i>
+			<span >Editar</span>
+		</button>
+
+		<button ng-click="vm.deselectBranch()" class="pull-rigth btn  btn-sm btn-primary btn-addon"
+				 type="reset">
+			<i class="fa fa-reply-all"></i>
+			<span >Quitar Seleccion</span>
+		</button>
+		<button ng-if="!vm.editarObjeto" ng-click="vm.guardarRama()" class="pull-rigth btn  btn-sm btn-success btn-addon"
+				 type="submit">
+			<i class="fa fa-save"></i>
+			<span >Guardar</span>
+		</button>
+
+		<button ng-if="false" ng-click="vm.eliminarEstructura()" class="pull-rigth btn  btn-sm btn-danger btn-addon"
+				type="reset">
+			<i class="fa fa-save"></i>
+			<span >Eliminar</span>
+		</button>
+
+	</div>
+
+
+	<div class="panel">
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="line b-b line-lg"></div>
+
+				<div class="wrapper-md">
+					<div class="b-a bg-light dk r r-2x">
+						<abn-tree
+								tree-data         = "vm.my_data"
+								tree-control      = "vm.my_tree"
+								on-select         = "vm.my_tree_handler(branch)"
+								expand-level      = "1"
+								initial-selection = "Granny Smith"
+								icon-leaf         = "fa fa-file-o"
+								icon-expand       = "fa fa-plus"
+								icon-collapse     = "fa fa-minus"
+						>
+						</abn-tree>
+					</div>
+				</div>
+
+				<div class="line b-b line-lg"></div>
+			</div>
+
+			<!-- form para nuevo -->
+
+			<div ng-if="vm.objData"  class="col-sm-6">
+				<form class="animated fadeInLeft delay" id="formEstructura"  name="formEstructura" class="form-validation">
+					<div ng-if="formEstructura.$valid ? vm.formValido=true : vm.formValido=false"/>
+					<div class="line b-b line-lg"></div>
+
+
+
+					<div class="row">
+						<div class="col-sm-10">
+							<label class="l-h-0x">*NIVEL:</label>
+							<div>
+								<select ng-disabled="vm.editarObjeto" class="form-control"
+										ng-options="nivel.descripcion for nivel in vm.lstNiveles track by nivel.idNivelEstructuraOrg"
+										ng-model="vm.objData.nivel"></select>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="line-sm"></div>
+
+					<div class="row">
+
+						<div class="col-sm-10">
+
+							<label >*C&Oacute;DIGO:
+								<span ng-if="vm.objData.nivel.largoCodigo"  class=" label bg-warning  m-t-sm">Max: {{vm.objData.nivel.largoCodigo}}</span>
+							</label>
+
+							<div>
+								<input type="text"  ng-disabled="vm.objData.id"  ng-model="vm.objData.codigo" class="form-control" required>
+							</div>
+						</div>
+					</div>
+
+					<div class="line-sm"></div>
+
+					<div class="row">
+						<div class="col-sm-10">
+							<label class="l-h-0x">*DESCRIPCI&Oacute;N:</label>
+							<div>
+								<input MAXLENGTH="50" ng-disabled="vm.editarObjeto" type="text" ng-model="vm.objData.label" class="form-control" required>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="line-sm"></div>
+
+					<div class="row">
+						<div class="col-sm-10">
+							<label class="l-h-0x">*NIVEL PADRE:</label>
+							<div class="input-group">
+								<input ng-disabled="true" type="text"  ng-model="vm.objData.labelPadre" class="form-control">
+								<span  class="input-group-btn">
+                					<button ng-disabled="vm.editarObjeto" type="submit" ng-click="vm.abrirPanel()" class="btn btn-group-lg bg-light"><i class="fa fa-search"></i></button>
+              					</span>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="line-sm"></div>
+
+					<div class="row">
+						<div class="col-sm-10">
+							<label class="l-h-0x">*ORDEN:</label>
+							<div>
+								<input type="number" ng-disabled="vm.editarObjeto"  ng-model="vm.objData.orden" class="form-control" required>
+							</div>
+						</div>
+
+					</div>
+
+
+
+					<div class="col-sm-10 line"></div>
+
+					<div class="col-sm-10 alert alert-info">
+						<strong>NOTA:</strong> Los campos se&ntilde;alados con (*) son obligatorios.
+					</div>
+
+					<div class="col-sm-10 line"></div>
+
+				</form>
+			</div>
+
+
+		</div>
+	</div>
+</div>

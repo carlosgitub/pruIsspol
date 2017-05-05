@@ -1,0 +1,22 @@
+<div class="container w-xl w-auto-xs" ng-controller="UsuarioOlvidoClave" ng-init="app.settings.container = false;">
+    <a href class="navbar-brand block m-t" ui-sref="access.signin" translate="siisspol.cabecera.titulo_organizacion"/>
+    <div class="m-b-lg" >
+        <div class="wrapper text-center">
+            <strong translate="siisspol.cambio_clave.ingresecorreoparacambioclave"/>
+        </div>
+        <form id="formOlvidoClave" name="formOlvidoClave" >
+            <div class="list-group list-group-sm">
+                <div class="list-group-item">
+                    <input type="email" placeholder="{{'siisspol.usuario_perfiles.correo' | translate}}" ng-model="correo" class="form-control no-border" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled="formOlvidoClave.$invalid"  translate="siisspol.comun.enviar" ng-click="solicitudCambioClaveUsuario(correo)"/>
+        </form>
+        <div collapse="isCollapsed" class="m-t">
+            <div class="alert alert-success">
+                <p>{{'siisspol.cambio_clave.revisesubuzonparacontinuarcambioclave' | translate}}<a ui-sref="access.signin" class="btn btn-sm btn-success" >{{'siisspol.comun.ingresar' | translate}}</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="text-center" ng-include="'tpl/blocks/page_footer.html'"></div>
+</div>

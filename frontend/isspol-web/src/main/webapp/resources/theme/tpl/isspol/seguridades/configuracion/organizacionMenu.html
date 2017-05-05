@@ -1,0 +1,103 @@
+<div class="bg-white  b-b wrapper-sm">
+    <h1 class="small">Organizacion del Menu</h1>
+</div>
+
+<div ng-controller="OrgMenu as vm">
+
+    <div class="bg-light lter b-b">
+        <button ng-click="vm.nuevo()"  class="pull-rigth btn  btn-sm btn-dark btn-addon"
+                type="reset">
+            <i class="fa fa-plus"></i>
+            <span >Nuevo</span>
+        </button>
+
+        <button ng-if="vm.objCarpetaOpcion.id!=null? true:false" ng-click="vm.editarCarpetaOpcion()"  class="pull-rigth btn btn-sm btn-info btn-addon"
+                type="reset">
+            <i class="fa fa-pencil"></i>
+            <span >Editar</span>
+        </button>
+
+        <button ng-click="vm.deselectBranch()" class="pull-rigth btn btn-sm btn-primary btn-addon"
+                type="reset">
+            <i class="fa fa-reply-all"></i>
+            <span >Quitar Seleccion</span>
+        </button>
+        <button ng-if="!vm.editarObjeto" ng-click="vm.guardarRama()" class="pull-rigth btn  btn-sm btn-success btn-addon"
+                type="submit">
+            <i class="fa fa-save"></i>
+            <span >Guardar</span>
+        </button>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="line b-b line-lg"></div>
+
+                <div class="wrapper-md">
+                    <div class="b-a bg-light dk r r-2x">
+                        <abn-tree
+                                tree-data         = "vm.my_data"
+                                tree-control      = "vm.my_tree"
+                                on-select         = "vm.my_tree_handler(branch)"
+                                expand-level      = "1"
+                                initial-selection = "Granny Smith"
+                                icon-leaf         = "fa fa-file-o"
+                                icon-expand       = "fa fa-plus"
+                                icon-collapse     = "fa fa-minus"
+                        >
+                        </abn-tree>
+                    </div>
+                </div>
+
+                <div class="line b-b line-lg"></div>
+            </div>
+
+            <!-- form para nuevo -->
+
+            <div ng-if="vm.objCarpetaOpcion"  class="col-sm-6">
+                <form class="animated fadeInLeft delay" id="formCarpetaOpcion"  name="formCarpetaOpcion" class="form-validation">
+                    <div ng-if="formCarpetaOpcion.$valid ? vm.formValido=true : vm.formValido=false"/>
+                    <div class="line b-b line-lg"></div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <label >
+                                <span translate="siisspol.organizacion_menu.nombre"/>
+                            </label>
+                            <div>
+                                <input type="text" maxlength="" ng-model="vm.objCarpetaOpcion.nombre" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="line-sm"></div>
+
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <label >
+                                <span translate="siisspol.organizacion_menu.nombre"/>
+                            </label>
+                            <div>
+                                <input type="text" ng-model="vm.objCarpetaOpcion.nombre" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="line-sm"></div>
+
+                    <div class="col-sm-10 alert alert-info">
+                        <strong>NOTA:</strong> Los campos se&ntilde;alados con (*) son obligatorios.
+                    </div>
+
+                    <div class="col-sm-10 line"></div>
+
+                </form>
+            </div>-->
+
+
+        </div>
+    </div>
+</div>

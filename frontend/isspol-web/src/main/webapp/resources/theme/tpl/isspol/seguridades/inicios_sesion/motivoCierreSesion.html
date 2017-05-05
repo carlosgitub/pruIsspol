@@ -1,0 +1,166 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">MOTIVOS DE CIERRE DE SESI&Oacute;N</h1>
+</div>
+
+<div ng-controller="MotivosCierre as vm">
+    <div class="bg-light lter b-b wrapper-md" style="heRight: 70px; padding: 10px;">
+        <div class="hbox text-left b-b b-light text-sm">
+            <button ng-if="!vm.motivo&&!vm.objMotivo?true:false" class="pull-rigth btn m-b-xs btn-sm btn-dark btn-addon"
+                    type="reset" ng-click="vm.nuevo()">
+                <i class="fa fa-plus"></i>
+                <span>Nuevo</span>
+            </button>
+            <button ng-if="vm.motivo" class="pull-rigth btn m-b-xs btn-sm btn-success btn-addon"
+                    type="submit" ng-click="vm.guardar()">
+                <i class="fa fa-save"></i>
+                <span>Guardar</span>
+            </button>
+            <button ng-if="vm.motivo||vm.objMotivo?true:false" class="pull-rigth btn m-b-xs btn-sm btn-warning btn-addon"
+                    type="submit" ng-click="vm.cancelar()">
+                <i class="fa fa-ban"></i>
+                <span>Cancelar</span>
+            </button>
+        </div>
+    </div>
+    <div class="panel bg-light " ng-if="vm.motivo">
+        <div class="row">
+            <div class="col-sm-9">
+                <tabset class="tab-container" >
+                    <tab heading="MOTIVOS CIERRE SESI&Oacute;N">
+                        <form id="formMotivoCierreSesion" name="formMotivoCierreSesion" class="form-validation">
+
+                            <div ng-if="vm.motivo">
+
+                                <div class="line-sm"/>
+                                <div class="row  " >
+
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x">Id: </label>
+                                        <div>
+                                            <input type="number" ng-model="vm.motivo.idMotivo"
+                                                   class="form-control" placeholder="Ingrese el Id" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line-sm"/>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x">*Nombre: </label>
+                                        <div>
+                                            <input type="text" ng-model="vm.motivo.motivo"
+                                                   class="form-control" placeholder="Ingrese el nombre" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line-sm"/>
+                                <div class="row  " >
+                                    <div class="col-sm-10">
+                                        <label class="l-h-0x">*Vigente: </label>
+                                        <div>
+                                            <label class="i-switch i-switch-md bg-info m-t-xs m-r">
+                                                <input type="checkbox" ng-model="vm.motivo.vigente"  checked />
+                                                <i></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line-sm"/>
+                            <div class="alert alert-info col-sm-10">
+                                <strong>NOTA:</strong> Los campos se&ntilde;alados con (*) son obligatorios.
+                            </div>
+                            <div class="line-sm"></div>
+                        </form>
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+    </div>
+    <div ng-if="!vm.motivo" class="panel panel-defaul panel-body">
+        <div ng-if="vm.objMotivo">
+
+            <div class="line-sm"/>
+            <div class="row  " >
+
+                <div class="col-sm-10">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Id: </label>
+                    </div>
+
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.objMotivo.idMotivo}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="line-sm"/>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>*Nombre: </label>
+                    </div>
+
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.objMotivo.motivo}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="line-sm"/>
+            <div class="row  " >
+                <div class="col-sm-10">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>*Vigente: </label>
+                    </div>
+
+                    <div class="col-md-5 bg-light">
+                        <label>
+                            {{vm.objMotivo.vigente===true?'Si':'No'}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="!vm.objMotivo">
+
+            <table class="table table-condensed table-bordered table-striped"
+                   show-filter="true">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>VIGENTE</th>
+                    <th>CREACI&Oacute;N USUARIO</th>
+                    <th>CREACI&Oacute;N FECHA</th>
+                    <th>MODIFICA USUARIO</th>
+                    <th>MODIFICA FECHA</th>
+                </tr>
+                </thead>
+
+                <tr ng-repeat="iterador in vm.lstMotivosCierre">
+                    <td class="text-center" data-title="ID">{{iterador.idMotivo}}</td>
+                    <td class="text-center" data-title="NOMBRE">{{iterador.motivo}}</td>
+                    <td class="text-center" data-title="VIGENTE">{{iterador.vigente==true?'Si':'No'}}</td>
+                    <td class="text-center" data-title="CREACIONUSUARIO">{{iterador.usuario.nombre}}</td>
+                    <td class="text-center" data-title="CREACIONFECHA">{{iterador.fecha}}</td>
+                    <td class="text-center" data-title="MODIFICAUSUARIO">{{iterador.usuario.nombre}}</td>
+                    <td class="text-center" data-title="MODIFICAFECHA">{{iterador.fecha}}</td>
+                    <td>
+                        <div class="text-center" style="width: 200px">
+                            <button class="btn btn-info btn-xs"
+                                    ng-click="vm.editarMotivo(iterador,$index)">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button>
+                            <button class="btn btn-primary btn-xs"
+                                    ng-click="vm.visualiazarObjeto(iterador)">
+                                <i class="glyphicon glyphicon-eye-open"></i>
+                            </button>
+                            <button class="btn btn-danger btn-xs"
+                                    ng-click="vm.eliminarMotivo($index)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

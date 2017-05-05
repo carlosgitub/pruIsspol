@@ -1,0 +1,103 @@
+/* 
+Nombre: proc_usuario_validaciones_formulario
+Descripción: Ejecuta las validaciones del registro de usuario
+	
+************** Histórico **************
+Fecha		 siglas/nombre		 Descripción
+21/04/2017	 Paul Salgado		 Primera versión
+
+*/
+
+ALTER PROCEDURE [seguridad].[proc_usuario_validar_formulario]
+@AS_IDENTIFICACION VARCHAR(15),
+@AI_IDPERSONASUBTIPO INTEGER OUTPUT,
+@AS_APELLIDOPATERNO VARCHAR(50) OUTPUT,
+@AS_APELLIDOMATERNO VARCHAR(50) OUTPUT,
+@AS_NOMBRES VARCHAR(100) OUTPUT,
+@AS_IDUSUARIO VARCHAR(50) OUTPUT,
+@AS_CORREO VARCHAR(100) OUTPUT,
+@AS_MSJ VARCHAR(200) OUTPUT
+AS
+
+DECLARE
+@ID_PERSONA INT;
+
+IF @AS_IDENTIFICACION = '' OR @AS_IDENTIFICACION IS NULL
+BEGIN
+	SET @AS_MSJ = 'INGRESE UN NUMERO DE IDENTIFICACION VALIDO';
+	RETURN -1;
+END;
+
+IF EXISTS (SELECT 1 FROM seguridad.usuario 
+		WHERE usuario.identificacion = @AS_IDENTIFICACION )
+BEGIN
+	SET @AS_MSJ = 'USUARIO YA EXISTE';
+	RETURN -1;
+END;
+
+IF NOT EXISTS (SELECT 1 FROM persona.persona 
+	WHERE persona.identificacion = @AS_IDENTIFICACION )
+BEGIN
+	SET @AS_MSJ = 'PERSONA NO ENCONTRADA';
+	RETURN -1;
+END;
+
+select @ID_PERSONA = persona.id_persona 
+from persona.persona 
+where persona.identificacion = @AS_IDENTIFICACION;
+
+IF NOT EXISTS (SELECT 1 FROM persona.persona_subtipo_afiliacion 
+where persona_subtipo_afiliacion.id_persona = @ID_PERSONA)
+BEGIN
+	SET @AS_MSJ = 'IDENTIFICACION NO CORRESPONDE A UN EMPLEADO ACTIVO';
+	RETURN -1;
+END;
+
+SET @AI_IDPERSONASUBTIPO = '1';
+
+select 
+@AS_APELLIDOPATERNO = persona.apellido_paterno, 
+@AS_APELLIDOMATERNO = persona.apellido_materno,
+@AS_NOMBRES = persona.nombre
+from persona.persona 
+where persona.identificacion = @AS_IDENTIFICACION;
+
+SET @AS_IDUSUARIO = CONCAT (SUBSTRING (@AS_NOMBRES, 1, 1), @AS_APELLIDOPATERNO);
+
+IF EXISTS (SELECT 1 FROM seguridad.usuario WHERE usuario.id_usuario = @AS_IDUSUARIO )
+BEGIN
+	SET @AS_IDUSUARIO = CONCAT (SUBSTRING (@AS_NOMBRES, CHARINDEX (' ' , @AS_NOMBRES) + 1, 1), @AS_APELLIDOPATERNO);
+END;
+
+IF EXISTS (SELECT 1 FROM seguridad.usuario WHERE usuario.id_usuario = @AS_IDUSUARIO )
+BEGIN
+	SET @AS_IDUSUARIO = CONCAT (SUBSTRING (@AS_NOMBRES, 1, 1), @AS_APELLIDOPATERNO, SUBSTRING (@AS_APELLIDOMATERNO, 1, 1));
+END;
+
+IF EXISTS (SELECT 1 FROM seguridad.usuario WHERE usuario.id_usuario = @AS_IDUSUARIO )
+BEGIN
+	SET @AS_IDUSUARIO = CONCAT (SUBSTRING (@AS_NOMBRES, 1, 1), SUBSTRING (@AS_NOMBRES, CHARINDEX (' ' , @AS_NOMBRES) + 1, 1), @AS_APELLIDOPATERNO);
+END;
+
+IF EXISTS (SELECT 1 FROM seguridad.usuario WHERE usuario.id_usuario = @AS_IDUSUARIO )
+BEGIN
+	SET @AS_IDUSUARIO = CONCAT (SUBSTRING (@AS_NOMBRES, 1, 1), SUBSTRING (@AS_NOMBRES, CHARINDEX (' ' , @AS_NOMBRES) + 1, 1), @AS_APELLIDOPATERNO, SUBSTRING (@AS_APELLIDOMATERNO, 1, 1));
+END;
+
+SET @AS_IDUSUARIO = LOWER (@AS_IDUSUARIO);
+
+SET @AS_CORREO = CONCAT(@AS_IDUSUARIO, '@isspol.org.ec');
+SET @AS_MSJ = 'DATOS RECUPERADOS EXITOSAMENTE';
+
+IF @@ERROR <> 0
+    BEGIN
+        SET @AS_MSJ = 'ERROR AL RECUPERAR DATOS DE USUARIO';
+        RETURN -1;
+    END;
+RETURN 1;
+
+
+
+
+
+

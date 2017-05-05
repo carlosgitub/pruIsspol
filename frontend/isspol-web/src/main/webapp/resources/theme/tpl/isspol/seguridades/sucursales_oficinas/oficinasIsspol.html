@@ -1,0 +1,350 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">OFICINAS</h1>
+</div>
+
+<div ng-controller="OficinasIsspol as vm">
+
+    <div class="bg-light lter b-b wrapper-md">
+        <div class="hbox text-left b-b b-light text-sm">
+            <button ng-if="!vm.objOficina && !vm.objOficinaVi ? true:false"
+                    class="pull-rigth btn m-b-xs btn-sm btn-dark btn-addon "
+                    type="reset" ng-click="vm.nuevaOficina()">
+                <i class="fa fa-plus m-b-xs  "></i>
+                <span>Nuevo</span>
+            </button>
+
+            <button ng-if="vm.objOficina" class="pull-rigth btn m-b-xs btn-sm btn-success btn-addon "
+                    type="submit" ng-click="vm.guardar(vm.objOficina)">
+                <i class="fa fa-save m-b-xs "></i>
+                <span>Guardar</span>
+            </button>
+            <button ng-if="vm.objOficina || vm.objOficinaVi ? true:false "
+                    class="pull-rigth btn m-b-xs btn-sm btn-warning btn-addon"
+                    type="submit" ng-click="vm.cancelar()">
+                <i class="fa fa-ban m-b-xs"></i>
+                <span>Cancelar</span>
+            </button>
+
+
+        </div>
+    </div>
+
+    <div ng-if="!vm.objOficina" class="panel panel-defaul panel-body">
+
+        <div ng-if="vm.objOficinaVi">
+            <div class="panel-body">
+                <div class="row row-fluid ">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Tipo:</label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.objOficinaVi.tipoOficina.nombre}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Nombre:</label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.objOficinaVi.nombre}}</label>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Provincia:</label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.objOficinaVi.provincia.nombre}}</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Cantón:</label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.objOficinaVi.canton.nombre}}</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Direcci&oacute;n:</label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.objOficinaVi.direccion}}</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Telef&oacute;no:</label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.objOficinaVi.telefono}}</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div ng-if="!vm.objOficinaVi">
+
+            <table ng-table="vm.tableParams" class="table table-condensed table-bordered table-striped"
+                   show-filter="true">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>TIPO</th>
+                    <th>NOMBRE</th>
+                    <th>PROVINCIA</th>
+                    <th>CANTÓN</th>
+                    <th>DIRECCI&Oacute;N</th>
+                    <th>TEL&Eacute;FONO</th>
+                    <th>OPCIONES</th>
+                </tr>
+                </thead>
+                <tr ng-repeat="items in $data">
+                    <td>{{items.idOficina}}</td>
+                    <td>{{items.tipoOficina.nombre}}</td>
+                    <td>{{items.nombre}}</td>
+                    <td>{{items.provincia.nombre}}</td>
+                    <td>{{items.canton.nombre}}</td>
+                    <td>{{items.direccion}}</td>
+                    <td>{{items.telefono}}</td>
+                    <td>
+                        <div class="text-center" style="width: 200px">
+                            <button class="btn btn-info btn-xs"
+                                    ng-click="vm.editarOficina(iterador,$index)">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button>
+                            <button class="btn btn-primary btn-xs"
+                                    ng-click="vm.visualiazarOficinas(iterador,$index)">
+                                <i class="glyphicon glyphicon-eye-open"></i>
+                            </button>
+
+                            <button class="btn btn-danger btn-xs"
+                                    ng-click="vm.eliminarOficina($index)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <form ng-if="vm.objOficina" name="formOficina" class="form-validation">
+        <div >
+
+            <div>
+
+                <tabset class="tab-container">
+                    <tab heading="DATOS DE OFICINA">
+                        <div >
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label class="l-h-0x">*Sucursal: </label>
+                                    <div>
+                                        <select class="form-control" name="mySucursal" id="mySucursal"
+                                                ng-options="sucursal.nombre for sucursal in vm.lstSucursal track by sucursal.idSucursal"
+                                                ng-model="vm.objOficina.sucursal" required>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="line-sm"></div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                <label class="l-h-0x">*Tipo: </label>
+                                <div >
+                                    <select class="form-control" name="myTipoOficina" id="myTipoOficina"
+                                            ng-options="tipoOficina.nombre for tipoOficina in vm.lstTipos track by tipoOficina.idTipoOficina"
+                                            ng-model="vm.objOficina.tipoOficina" required>
+                                    </select>
+                                </div>
+                                </div>
+                            </div>
+
+                            <div class="line-sm"></div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label class="l-h-0x">*Provincia: </label>
+                                    <div >
+                                        <select class="form-control" name="myProvince" id="myProvince" ng-selected = vm.cargarCantonesPorProvincia(vm.objOficina.provincia)
+                                                ng-options="provincia.nombre for provincia in vm.lstProvincia track by provincia.idProvincia"
+                                                ng-model="vm.objOficina.provincia" required>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="line-sm"></div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label class="l-h-0x">*Canton: </label>
+                                    <div >
+                                        <select class="form-control" name="myCanton" id="myCanton"
+                                                ng-options="canton.nombre for canton in vm.lstCanton track by canton.idCanton"
+                                                ng-model="vm.objOficina.canton" required>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="line-sm"></div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label class="l-h-0x">*Nombre: </label>
+                                    <div>
+                                        <input type="text" ng-model="vm.objOficina.nombre"
+                                               class="form-control"
+                                               placeholder="Ingrese el nombre de la Oficina" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="line-sm"></div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label class="l-h-0x">*Direcci&oacute;n: </label>
+                                    <div>
+                                        <input type="text" ng-model="vm.objOficina.direccion"
+                                               class="form-control" placeholder="Ingrese la direcci&oacute;n"
+                                               required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="line-sm"></div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <label class="l-h-0x">*Código Area Teléfono: </label>
+                                <div>
+                                    <input type="text" ng-model="vm.objOficina.telCodigoArea"
+                                           class="form-control" placeholder="Ingrese un código de área del teléfono"
+                                           required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="line-sm"></div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <label class="l-h-0x">*Código Región Teléfono: </label>
+                                <div>
+                                    <input type="text" ng-model="vm.objOficina.telCodigoRegion"
+                                           class="form-control" placeholder="Ingrese un código de región del teléfono"
+                                           required/>
+                                </div>
+                            </div>
+                        </div>
+
+
+                            <div class="line-sm"></div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label class="l-h-0x">*Tel&eacute;fono: </label>
+                                    <div>
+                                        <input type="text" ng-model="vm.objOficina.telefono"
+                                               class="form-control" placeholder="Ingrese el tel&eacute;fono"
+                                               required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="line-sm"></div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <label class="l-h-0x">*Otro Tel&eacute;fono: </label>
+                                <div>
+                                    <input type="text" ng-model="vm.objOficina.otroTelefono"
+                                           class="form-control" placeholder="Ingrese otro tel&eacute;fono"
+                                           required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="line-sm"></div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <label class="l-h-0x">*Código: </label>
+                                <div>
+                                    <input type="text" ng-model="vm.objOficina.codigo"
+                                           class="form-control" placeholder="Ingrese un Código"
+                                           required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="line-sm"></div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <label class="l-h-0x">*Siglas Oficio: </label>
+                                <div>
+                                    <input type="text" ng-model="vm.objOficina.codigo2"
+                                           class="form-control" placeholder="Ingrese una sigla para Oficio"
+                                           required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="line-sm"></div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <label class="l-h-0x">*Latitud: </label>
+                                <div>
+                                    <input type="text" ng-model="vm.objOficina.latitud"
+                                           class="form-control" placeholder="Ingrese la Latitud"
+                                           required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="line-sm"></div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <label class="l-h-0x">*Longitud: </label>
+                                <div>
+                                    <input type="text" ng-model="vm.objOficina.longitud"
+                                           class="form-control" placeholder="Ingrese la Longitud"
+                                           required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="line-sm"></div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <label class="l-h-0x">*Estado: </label>
+                                <div >
+                                    <select class="form-control" name="myEstado" id="myEstado"
+                                            ng-options="estado.descripcion for estado in vm.lstEstado track by estado.idEstado"
+                                            ng-model="vm.objOficina.estado" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="line-sm"></div>
+                            <div class="col-sm-10 alert alert-info">
+                                <strong>NOTA:</strong> Los campos se&ntilde;alados con (*) son obligatorios.
+                            </div>
+                            <div class="line-sm"></div>
+                        </div>
+                    </tab>
+                </tabset>
+
+            </div>
+
+        </div>
+
+
+    </form>
+
+</div>

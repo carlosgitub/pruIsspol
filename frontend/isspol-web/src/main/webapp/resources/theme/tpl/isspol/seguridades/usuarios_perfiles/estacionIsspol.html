@@ -1,0 +1,259 @@
+<div class="bg-white  b-b wrapper-sm">
+    <i class="pull-right  fa fa-users  icon text-success"></i>
+    <span>
+        <h1 class="small">ESTACIÓN</h1>
+    </span>
+</div>
+
+<div ng-controller="EstacionIsspol as vm">
+
+    <div class="bg-light lter b-b wrapper-md">
+        <div class="hbox text-left b-b b-light text-sm">
+            <button ng-if="!vm.objEstacion && !vm.estacionObj ? true:false"
+                    class="pull-rigth btn m-b-xs btn-sm btn-dark btn-addon "
+                    type="reset" ng-click="vm.nuevoEstacion()">
+                <i class="fa fa-plus"></i>
+                <span>Nuevo</span>
+            </button>
+
+            <button ng-if="vm.objEstacion" class="pull-rigth btn m-b-xs btn-sm btn-success btn-addon "
+                    type="submit" ng-click="vm.guardar(vm.objEstacion)">
+                <i class="fa fa-save block m-b-xs fa-2x "></i>
+                <span>Guardar</span>
+            </button>
+
+            <button ng-if="vm.objEstacion || vm.estacionObj ? true:false"
+                    class="pull-rigth btn m-b-xs btn-sm btn-warning btn-addon"
+                    type="submit" ng-click="vm.cancelar()">
+                <i class="fa fa-ban block m-b-xs fa-2x "></i>
+                <span>Cancelar</span>
+            </button>
+        </div>
+    </div>
+
+    <div ng-if="!vm.objEstacion" class="panel panel-defaul panel-body">
+
+        <!-- forma para VER -->
+        <div ng-if="vm.estacionObj">
+            <div class="panel-body">
+                <div class="row row-fluid ">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Hostname: </label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.estacionObj.hostname}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Descripción: </label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.estacionObj.descripcion}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Dirección Física: </label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.estacionObj.direccionFisica}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Ip: </label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.estacionObj.ip}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Ubicación: </label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.estacionObj.ubicacion}}</label>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Auditoría: </label>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Usuario Creación: </label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.estacionObj.creacionUsuario}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Fecha Creación: </label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.estacionObj.creacionFecha|date:'dd/MM/yyyy HH:MM:ss'}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Equipo Creación: </label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.estacionObj.creacionEquipo}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Usuario Modif: </label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.estacionObj.modificaUsuario}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Fecha Modif: </label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.estacionObj.modificaFecha|date:'dd/MM/yyyy HH:MM:ss'}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+                        <label>Equipo Modif: </label>
+                    </div>
+                    <div class="col-md-5 bg-light">
+                        <label>{{vm.estacionObj.modificaEquipo}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- forma para EDITAR -->
+        <div ng-if="!vm.estacionObj">
+            <table class="table table-condensed table-bordered table-striped" show-filter="true">
+                <thead>
+                <tr>
+                    <th class="text-center">Hostname</th>
+                    <th class="text-center">Descripción</th>
+                    <th class="text-center">Dirección Física</th>
+                    <th class="text-center">Ip</th>
+                    <th class="text-center">Ubicación</th>
+                </tr>
+                </thead>
+
+                <tr ng-repeat="iterador in vm.lstEstacion">
+                    <td class="text-left" data-title="HOSTNAME">
+                        {{iterador.hostname}}
+                    </td>
+                    <td class="text-left" data-title="DESCRIPCION">
+                        {{iterador.descripcion}}
+                    </td>
+                    <td class="text-center" data-title="DIRECCIONFISICA">
+                        {{iterador.direccionFisica}}
+                    </td>
+                    <td class="text-center" data-title="IP">
+                        {{iterador.ip}}
+                    </td>
+                    <td class="text-left" data-title="UBICACION">
+                        {{iterador.ubicacion}}
+                    </td>
+                    <td>
+                        <div class="text-center">
+                            <button class="btn btn-info btn-xs"
+                                    ng-click="vm.editarEstacion(iterador,false,$index)">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button>
+                            <button class="btn btn-primary btn-xs"
+                                    ng-click="vm.verEstacion(iterador,true,$index)">
+                                <i class="fa fa-eye"></i>
+                            </button>
+
+                            <button class="btn btn-danger btn-xs"
+                                    ng-click="vm.eliminarEstacion(iterador,$index)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Forma para Nuevo -->
+    <form ng-if="vm.objEstacion" name="formEstacion" class="form-validation">
+        <tabset class="tab-container">
+            <tab heading="DATOS DE ESTACION">
+                <div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <label class="l-h-0x">
+                                *Hostname:
+                            </label>
+                            <div>
+                                <input type="text"  ng-model="vm.objEstacion.hostname"
+                                       class="form-control"
+                                       placeholder="Ingrese el hostname" required>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="col-sm-10">
+                            <label class="l-h-0x">
+                                 Descripción:
+                            </label>
+                            <div>
+                                <input type="text"  ng-model="vm.objEstacion.descripcion"
+                                       class="form-control"
+                                       placeholder="Ingrese la descripción" required>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="col-sm-10">
+                            <label class="l-h-0x">
+                                Dirección Física:
+                            </label>
+                            <div>
+                                <input type="text"  ng-model="vm.objEstacion.direccionFisica"
+                                       class="form-control"
+                                       placeholder="Ingrese la direccion fisica MAC" required>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="col-sm-10">
+                            <label class="l-h-0x">
+                                 Ip:
+                            </label>
+                            <div>
+                                <input type="text"  ng-model="vm.objEstacion.ip"
+                                       class="form-control"
+                                       placeholder="Ingrese la Ip" required>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="col-sm-10">
+                            <label class="l-h-0x">
+                                Ubicación:
+                            </label>
+                            <div>
+                                <input type="text"  ng-model="vm.objEstacion.ubicacion"
+                                       class="form-control"
+                                       placeholder="Ingrese la ubicación" required>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="line"></div>
+                    <div class="alert alert-info">
+                        <strong>NOTA:</strong> Los campos se&ntilde;alados con (*) son obligatorios.
+                    </div>
+                </div>
+            </tab>
+        </tabset>
+        <div class="line line-dashed b-b line-lg pull-in"></div>
+    </form>
+</div>

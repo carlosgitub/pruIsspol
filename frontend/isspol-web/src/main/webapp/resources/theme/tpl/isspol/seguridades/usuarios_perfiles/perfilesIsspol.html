@@ -1,0 +1,152 @@
+
+<div class="bg-light lter b-b wrapper-md">
+	<h1 class="m-n font-thin h3">PERFILES DE USUARIO</h1>
+</div>
+
+<div  ng-controller="PerfilesIsspol as vm">
+
+	<div class="bg-light lter b-b wrapper-md" style="heRight: 70px; padding: 10px;">
+		<div class="text-left b-b b-light text-sm">
+			<button ng-if="!vm.perfil && !vm.objeto ? true:false" class="pull-rigth btn m-b-xs btn-sm btn-dark btn-addon "
+					type="reset" ng-click="vm.nuevoPerfil()">
+				<i class="fa fa-plus"></i>
+				<span>Nuevo</span>
+			</button>
+
+			<button ng-if="vm.perfil" class="pull-rigth btn m-b-xs btn-sm btn-success btn-addon "
+					type="submit" ng-click="vm.guardar(vm.perfil)">
+				<i class="fa fa-save  m-b-xs  "></i>
+				<span>Guardar</span>
+			</button>
+			<button ng-if="vm.perfil || vm.objeto ? true:false"
+					class="pull-rigth btn m-b-xs btn-sm btn-warning btn-addon"
+					type="submit" ng-click="vm.cancelar()">
+				<i class="fa fa-ban  m-b-xs "></i>
+				<span>Cancelar</span>
+			</button>
+
+
+		</div>
+	</div>
+
+	<div ng-if="!vm.perfil" class="panel panel-defaul panel-body">
+
+		<!-- Form para vista Perfiles -->
+		<div ng-if="vm.objPerfilVi">
+			<div class="panel-body">
+				<div class="row row-fluid ">
+					<div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+						<label>Nombre:</label>
+					</div>
+					<div class="col-md-5 bg-light">
+						<label>{{vm.objPerfilVi.nombre}}</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div ng-if="vm.objeto">
+			<div class="panel-body">
+				<div class="row row-fluid ">
+					<div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+						<label>Id:</label>
+					</div>
+					<div class="col-md-5 bg-light">
+						<label>{{vm.objeto.id}}</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+						<label>Perfil:</label>
+					</div>
+					<div class="col-md-5 bg-light">
+						<label>{{vm.objeto.nombre}}</label>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-2 bg-primary text-right" style="border: solid currentColor 1px; height: 26px;">
+						<label>Tipo:</label>
+					</div>
+					<div class="col-md-5 bg-light">
+						<label>{{vm.objeto.tipo.nombre}}</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="!vm.objeto">
+			<table class="table table-condensed table-bordered table-striped"
+				   show-filter="true">
+				<thead>
+				<tr>
+					<th>ID</th>
+					<th>NOMBRE</th>
+					<th>OPCIONES</th>
+				</tr>
+				</thead>
+
+				<tr ng-repeat="iterador in vm.lstPerfiles">
+					<td>{{iterador.id}}</td>
+					<td>{{iterador.nombre}}</td>
+					<td>
+						<div class="text-center" style="width: 200px">
+							<button class="btn btn-info btn-xs"
+									ng-click="vm.editarPerfil(iterador,$index)">
+								<i class="glyphicon glyphicon-edit"></i>
+							</button>
+
+							<button class="btn btn-primary btn-xs"
+									ng-click="vm.visualizarPerfil(iterador,$index)">
+								<i class="glyphicon glyphicon-eye-open"></i>
+							</button>
+
+							<button class="btn btn-danger btn-xs"
+									ng-click="vm.eliminarPerfil(iterador)">
+								<i class="glyphicon glyphicon-trash"></i>
+							</button>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<!-- Form Nuevo -->
+	<form ng-if="vm.perfil" name="formPerfil" id="formPerfil" class="form-validation">
+		<div >
+			<div >
+				<tabset class="tab-container">
+					<tab heading="DATOS DE PERFILES DE USUARIO">
+						<div class="form-group">
+							<label class="col-sm-10 control-label">Id: </label>
+							<div >
+								<input type="number" ng-model="vm.perfil.id"
+									   class="form-control" placeholder="Ingrese el Id" required />
+							</div>
+						</div>
+						<div class="line"></div>
+						<div class="form-group">
+							<label class="col-sm-10 control-label">Nombre: </label>
+							<div >
+								<input type="text" ng-model="vm.perfil.nombre"
+									   class="form-control"
+									   placeholder="Ingrese el nombre deL perfil" required />
+							</div>
+						</div>
+
+						<div class="line"></div>
+						<div class="alert alert-info">
+							<strong>NOTA:</strong> Los campos se&ntilde;alados con (*) son obligatorios.
+						</div>
+					</tab>
+				</tabset>
+			</div>
+		</div>
+		<div class="line line-dashed b-b line-lg pull-in"></div>
+	</form>
+
+</div>
+
+</div>

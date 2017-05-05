@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0">
+
+    <reference id="comunSvc" interface="ec.org.isspol.persistence.service.comun.ComunSvc"/>
+    <reference id="logNotificacionSvc" interface="ec.org.isspol.persistence.service.comun.LogNotificacionSvc"/>
+    <reference id="procesoNotificacionSvc" interface="ec.org.isspol.persistence.service.comun.ProcesoNotificacionSvc"/>
+
+    <bean id="comunServicioFacade" class="ec.org.isspol.route.comun.facade.ComunServicioFacadeImpl">
+        <property name="comunSvc" ref="comunSvc"/>
+        <property name="logNotificacionSvc" ref="logNotificacionSvc"/>
+        <property name="procesoNotificacionSvc" ref="procesoNotificacionSvc"/>
+    </bean>
+
+    <bean id="comunServicio" class="ec.org.isspol.route.comun.service.bean.ComunServicioBean" init-method="init">
+        <property name="comunServicioFacade" ref="comunServicioFacade"/>
+    </bean>
+
+    <!-- Properties ActiveMQ -->
+    <cm:property-placeholder persistent-id="ec.org.isspol.amq.configuration" id="persistence" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="ec.org.isspol.amq.broker" value="tcp://localhost:61616"/>
+            <cm:property name="ec.org.isspol.amq.user" value="admin"/>
+            <cm:property name="ec.org.isspol.amq.password" value="admin"/>
+            <cm:property name="ec.org.isspol.amq.maximumRedeliveries" value="0"/>
+            <cm:property name="ec.org.isspol.amq.maxConnections" value="1"/>
+            <cm:property name="ec.org.isspol.amq.maxConcurrentConsumers" value="1"/>
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <!-- TM -->
+    <!-- plain javax.transaction.TransactionManager is not enough to do recovery for ActiveMQ -->
+    <reference id="jtaTxManager" interface="org.apache.geronimo.transaction.manager.RecoverableTransactionManager" />
+    <!-- aries-transaction-manager registers this interface if it finds the org.springframework.transaction.PlatformTransactionManager class  -->
+    <reference id="springJtaTxManager" interface="org.springframework.transaction.PlatformTransactionManager" />
+    <!--
+     Defines the transactional policy we want to use.
+   -->
+    <bean id="PROPAGATION_REQUIRED" class="org.apache.camel.spring.spi.SpringTransactionPolicy">
+        <property name="transactionManager" ref="springJtaTxManager" />
+    </bean>
+
+    <!-- XA connection factory -->
+    <bean id="activeMqXaConnectionFactory" class="org.apache.activemq.ActiveMQXAConnectionFactory">
+        <property name="brokerURL" value="${ec.org.isspol.amq.broker}" />
+        <property name="userName" value="${ec.org.isspol.amq.user}" />
+        <property name="password" value="${ec.org.isspol.amq.password}" />
+        <property name="redeliveryPolicy">
+            <bean class="org.apache.activemq.RedeliveryPolicy">
+                <property name="maximumRedeliveries" value="${ec.org.isspol.amq.maximumRedeliveries}" />
+            </bean>
+        </property>
+    </bean>
+    <!-- non-XA connection factory -->
+    <bean id="activeMqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${ec.org.isspol.amq.broker}" />
+        <property name="userName" value="${ec.org.isspol.amq.user}" />
+        <property name="password" value="${ec.org.isspol.amq.password}" />
+        <property name="redeliveryPolicy">
+            <bean class="org.apache.activemq.RedeliveryPolicy">
+                <property name="maximumRedeliveries" value="${ec.org.isspol.amq.maximumRedeliveries}" />
+            </bean>
+        </property>
+    </bean>
+    <!-- XA pool - ensures that the JMS Sessions get enlisted in the global transaction manager -->
+    <bean id="jmsXaPoolConnectionFactory" class="org.apache.activemq.pool.JcaPooledConnectionFactory">
+        <property name="name" value="activemq.default" />
+        <property name="maxConnections" value="1" />
+        <property name="transactionManager" ref="jtaTxManager" />
+        <property name="connectionFactory" ref="activeMqXaConnectionFactory" />
+    </bean>
+    <!-- non-XA pool -->
+    <bean id="jmsPoolConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <property name="maxConnections" value="1" />
+        <property name="connectionFactory" ref="activeMqConnectionFactory" />
+    </bean>
+    <!-- wires ActiveMQ broker and Geronimo transaction manager -->
+    <!--
+        A ResourceManager is needed for every transactional resource in order to
+        recover any outstanding transactions after a crash.
+        It will register with the Aries transaction manager, which then calls
+        recoverResource() on the transactional resource itself.
+    -->
+    <bean id="resourceManager" class="org.apache.activemq.jms.pool.GenericResourceManager" init-method="recoverResource">
+        <property name="transactionManager" ref="jtaTxManager" />
+        <property name="connectionFactory" ref="jmsXaPoolConnectionFactory" />
+        <property name="resourceName" value="activemq.default" />
+        <property name="userName" value="${ec.org.isspol.amq.user}" />
+        <property name="password" value="${ec.org.isspol.amq.password}" />
+    </bean>
+    <!-- ActiveMQ JMS Configuration is defined as Transacted and use global JTA TxManager -->
+    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="configuration">
+            <bean class="org.apache.camel.component.jms.JmsConfiguration">
+                <property name="connectionFactory" ref="jmsXaPoolConnectionFactory" />
+                <!-- JTA transaction manager (Spring interface to Aries-TM): -->
+                <property name="transactionManager" ref="springJtaTxManager" />
+                <!-- We set local transactions to false, because the JtaTransactionManager will take care of enrolling the XA JMS Connection when needed. -->
+                <property name="transacted" value="true" />
+                <property name="cacheLevelName" value="CACHE_NONE" />
+                <property name="maxConcurrentConsumers" value="1" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="comunRoute" class="ec.org.isspol.route.comun.route.ComunServicioRoute"/>
+
+    <camelContext xmlns="http://camel.apache.org/schema/blueprint">
+        <routeBuilder ref="comunRoute"/>
+    </camelContext>
+
+</blueprint>

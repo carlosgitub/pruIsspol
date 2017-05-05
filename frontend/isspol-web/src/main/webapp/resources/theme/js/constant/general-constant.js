@@ -1,0 +1,24 @@
+/**
+ * Created by santiago.yacelga on 4/24/2017.
+ */
+
+
+app.constant('general-message', {
+
+
+    /**Constantes para mensajes del CRUD**/
+    SAVEMESSAGE_OK: "REGISTRO GUARDADO CORRECTAMENTE",
+    UPDATEMESSAGE_OK: "REGISTRO ACTUALIZADO CORRECTAMENTE",
+    DELETEMESSAGE_OK: "REGISTRO ELIMINADO CORRECTAMENTE",
+    SAVEMESSAGE_ERROR: "HUBO UN ERROR AL GUARDAR/ACTUALIZAR EL REGISTRO, COMUNIQUESE CON EL ADMINISTRADOR",
+    DELETEMESSAGE_ERROR: "HUBO UN ERROR AL ELIMINAR EL REGISTRO",
+    MESSAGE_ERROR: "EXISTE UN ERROR!! COMUNIQUESE CON EL ADMINISTRADOR DEL SISTEMA",
+    REPETERMESSAGE: "IMPOSIBLE GUARDAR, REGISTRO REPETIDO",
+    SEGENEROCORREO: "Se ha enviado un correo a la direcci\u00f3n asociada a la cuenta",
+    CORREOCAMBIOCONTRASENA: "Se ha enviado un correo a la direcci\u00f3n asociada a la cuenta para la generaci\u00f3n de una nueva contrase\u00f1a",
+    /**Constantes de Paginacion**/
+    ITEMSPERPAGE_FEW: 5,
+    ITEMSPERPAGE_MANY: 20,
+    ITEMSPERPAGE_TOO_MANY: 50
+});
+

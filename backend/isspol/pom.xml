@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ec.org.isspol</groupId>
+    <artifactId>isspol</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>ISSPOL :: Backend Parent</name>
+    <modules>
+        <module>isspol-bundle</module>
+        <module>isspol-persistence</module>
+        <module>isspol-feature</module>
+        <module>isspol-amq-pool</module>
+        <module>isspol-routes</module>
+        <module>isspol-test</module>
+        <module>isspol-utils</module>
+    </modules>
+
+    <properties>
+        <!-- Versions -->
+        <!-- Note - Use the versions that are in the container that you are deploying to -->
+        <fuse.version.suffix>redhat-630187</fuse.version.suffix>
+        <activemq.version>5.11.0.${fuse.version.suffix}</activemq.version>
+        <camel-fuse.version>2.17.0.${fuse.version.suffix}</camel-fuse.version>
+        <commons-pool.version>1.6</commons-pool.version>
+        <dbcp2.version>2.1.1</dbcp2.version>
+        <hibernate.version>4.2.22.Final-redhat-1</hibernate.version>
+        <javax.mail.version>1.5.2</javax.mail.version>
+        <junit.version>4.12</junit.version>
+        <pax-jdbc.version>1.0.1</pax-jdbc.version>
+        <quartz.version>2.2.1</quartz.version>
+        <slf4j.version>1.7.13</slf4j.version>
+        <spring.version>4.2.2.RELEASE</spring.version>
+        <sqljdbc.version>4.0</sqljdbc.version>
+
+
+        <!-- OSGi build defaults -->
+        <isspol.osgi.export.pkg/>
+        <isspol.osgi.symbolic.name>${project.groupId}.${project.artifactId}</isspol.osgi.symbolic.name>
+        <isspol.osgi.exclude.dependencies></isspol.osgi.exclude.dependencies>
+        <isspol.osgi.export>${isspol.osgi.export.pkg};</isspol.osgi.export>
+        <isspol.isspol.osgi.expor.before.defaults></isspol.isspol.osgi.expor.before.defaults>
+        <isspol.osgi.import.additional></isspol.osgi.import.additional>
+        <isspol.osgi.import.defaults>
+        </isspol.osgi.import.defaults>
+        <isspol.osgi.import.pkg>
+            !${isspol.osgi.export.pkg},
+            ${isspol.osgi.import.defaults},
+            ${isspol.osgi.import.additional},
+            *
+        </isspol.osgi.import.pkg>
+        <isspol.osgi.import>
+            ${isspol.osgi.import.pkg}
+        </isspol.osgi.import>
+        <isspol.osgi.dynamic></isspol.osgi.dynamic>
+        <isspol.osgi.private.pkg></isspol.osgi.private.pkg>
+        <isspol.osgi.fragmenthost></isspol.osgi.fragmenthost>
+        <isspol.osgi.embed.dependency></isspol.osgi.embed.dependency>
+        <isspol.osgi.include.resource></isspol.osgi.include.resource>
+        <isspol.osgi.require.bundles></isspol.osgi.require.bundles>
+        <isspol.osgi.spring.context></isspol.osgi.spring.context>
+        <isspol.osgi.jpa.context></isspol.osgi.jpa.context>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Central Maven Repo</name>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>redhat.ga.repo</id>
+            <name>Fusesource Release Repository</name>
+            <url>https://maven.repository.redhat.com/ga</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Central Maven Repo</name>
+            <url>http://repo1.maven.org/maven2</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>redhat.ga.repo</id>
+            <name>Fusesource Release Repository</name>
+            <url>https://maven.repository.redhat.com/ga</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>redhat.ea.repo</id>
+            <name>Fusesource Release Repository</name>
+            <url>https://maven.repository.redhat.com/earlyaccess/all</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>fuseearlyaccess</id>
+            <name>Fusesource Release Repository</name>
+            <url>https://repository.jboss.org/nexus/content/groups/ea</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Proyecto -->
+            <!--Esquema Seguridad-->
+            <dependency>
+                <groupId>ec.org.isspol</groupId>
+                <artifactId>isspol-persistence-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ec.org.isspol</groupId>
+                <artifactId>isspol-persistence-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ec.org.isspol</groupId>
+                <artifactId>isspol-route-seguridad</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--Esquema Comun-->
+            <dependency>
+                <groupId>ec.org.isspol</groupId>
+                <artifactId>isspol-route-comun</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--Esquema Auditoria-->
+            <dependency>
+                <groupId>ec.org.isspol</groupId>
+                <artifactId>isspol-route-auditoria</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ec.org.isspol</groupId>
+                <artifactId>sqljdbc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ec.org.isspol</groupId>
+                <artifactId>isspol-amq-pool</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ec.org.isspol</groupId>
+                <artifactId>isspol-route-pool</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ec.org.isspol</groupId>
+                <artifactId>isspol-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Apache Camel -->
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-core</artifactId>
+                <version>${camel-fuse.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-blueprint</artifactId>
+                <version>${camel-fuse.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-spring</artifactId>
+                <version>${camel-fuse.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-jms</artifactId>
+                <version>${camel-fuse.version}</version>
+            </dependency>
+
+            <!-- Apache AMQ -->
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-pool</artifactId>
+                <version>${activemq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-camel</artifactId>
+                <version>${activemq.version}</version>
+            </dependency>
+
+            <!-- commons pool -->
+            <dependency>
+                <groupId>commons-pool</groupId>
+                <artifactId>commons-pool</artifactId>
+                <version>${commons-pool.version}</version>
+            </dependency>
+
+            <!-- Hibernate -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+
+            <!-- Spring -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <!-- dbcp2 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-dbcp2</artifactId>
+                <version>${dbcp2.version}</version>
+            </dependency>
+
+            <!-- Log -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <!-- Quartz -->
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz-jobs</artifactId>
+                <version>${quartz.version}</version>
+            </dependency>
+
+            <!-- Mail -->
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>${javax.mail.version}</version>
+            </dependency>
+
+            <!-- Test -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-test-spring</artifactId>
+                <version>${camel-fuse.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <inherited>true</inherited>
+                <configuration>
+                    <excludeDependencies>${isspol.osgi.exclude.dependencies}</excludeDependencies>
+                    <instructions>
+                        <Bundle-Name>ISSPOL :: ${project.artifactId}</Bundle-Name>
+                        <Bundle-SymbolicName>${isspol.osgi.symbolic.name}</Bundle-SymbolicName>
+                        <Export-Package>${isspol.osgi.export}</Export-Package>
+                        <Import-Package>${isspol.osgi.import}</Import-Package>
+                        <DynamicImport-Package>${isspol.osgi.dynamic}</DynamicImport-Package>
+                        <Private-Package>${isspol.osgi.private.pkg}</Private-Package>
+
+                        <!-- Added to accomodate more exotic cases -->
+
+                        <Fragment-Host>${isspol.osgi.fragmenthost}</Fragment-Host>
+                        <Embed-Dependency>${isspol.osgi.embed.dependency}</Embed-Dependency>
+
+                        <Require-Bundle>${isspol.osgi.require.bundles}</Require-Bundle>
+                        <Spring-Context>${isspol.osgi.spring.context}</Spring-Context>
+
+                        <Meta-Persistence>${isspol.osgi.jpa.context}</Meta-Persistence>
+
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

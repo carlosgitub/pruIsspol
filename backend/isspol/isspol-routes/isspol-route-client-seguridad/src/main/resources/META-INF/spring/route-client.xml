@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder
+            location="file:${JBOSS_HOME}/standalone/configuration/activemq.properties" order="1" ignore-unresolvable="true"/>
+
+    <!-- camel activemq component to connect to the broker -->
+    <bean id="connectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+        <property name="userName" value="${activemq.user}"/>
+        <property name="password" value="${activemq.password}"/>
+        <property name="brokerURL" value="${activemq.brokerUrl}"/>
+        <property name="trustAllPackages" value="true"/>
+    </bean>
+
+    <bean id="usuarioServiceClient" class="ec.org.isspol.route.client.seguridad.UsuarioServiceClient">
+        <property name="context" ref="camelClient"/>
+    </bean>
+
+    <bean id="estructuraOrganizacionalClient" class="ec.org.isspol.route.client.seguridad.EstructuraOrganizacionalClient">
+        <property name="context" ref="camelClient"/>
+    </bean>
+
+    <bean id="sucursalServiceClient" class="ec.org.isspol.route.client.seguridad.SucursalServiceClient">
+        <property name="context" ref="camelClient"/>
+    </bean>
+
+    <bean id="oficinaServiceClient" class="ec.org.isspol.route.client.seguridad.OficinaServiceClient">
+        <property name="context" ref="camelClient"/>
+    </bean>
+
+    <bean id="comunClienteServicio" class="ec.org.isspol.route.client.comun.ComunClienteServicio">
+        <property name="context" ref="camelClientComun"/>
+    </bean>
+
+    <bean id="auditoriaServicioCliente" class="ec.org.isspol.route.client.auditoria.AuditoriaServicioCliente">
+        <property name="context" ref="camelClientAuditoria"/>
+    </bean>
+
+    <bean id="carpetaOpcionServiceClient" class="ec.org.isspol.route.client.seguridad.CarpetaOpcionServiceClient">
+        <property name="context" ref="camelClient"/>
+    </bean>
+
+    <!-- the camel client -->
+    <camel:camelContext id="camelClient" >
+        <camel:proxy id="usuario"
+               serviceInterface="ec.org.isspol.route.security.service.UsuarioService"
+               serviceUrl="activemq:usuario?replyTo=queue:usuario.reply"/>
+    </camel:camelContext>
+    <camel:camelContext id="camelClientComun">
+        <camel:proxy id="comun"
+                     serviceInterface="ec.org.isspol.route.comun.service.ComunServicio"
+                     serviceUrl="activemq:comun?replyTo=queue:comun.reply"/>
+    </camel:camelContext>
+    <camel:camelContext id="camelClientAuditoria">
+        <camel:proxy id="auditoria"
+                     serviceInterface="ec.org.isspol.route.auditoria.service.AuditoriaServicio"
+                     serviceUrl="activemq:auditoria?replyTo=queue:auditoria.reply"/>
+    </camel:camelContext>
+
+    <camel:camelContext id="camelClientAfiliacion" >
+        <camel:proxy id="afiliacionCola"
+                     serviceInterface="ec.org.isspol.route.security.service.IAfiliacionServiceBean"
+                     serviceUrl="activemq:afiliacionCola?replyTo=queue:afiliacionCola.reply"/>
+    </camel:camelContext>
+
+</beans>

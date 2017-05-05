@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0">
+
+    <cm:property-placeholder persistent-id="ec.org.isspol.amqpool" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="amq.connection.url"
+                         value="tcp://localhost:61616?wireFormat.cacheEnabled=false&amp;wireFormat.tightEncodingEnabled=false&amp;wireFormat.maxInactivityDurationInitalDelay=30000"/>
+            <cm:property name="amq.connection.maxConnections" value="8"/>
+            <cm:property name="amq.connection.maximumActive" value="10"/>
+            <cm:property name="amq.client.connection.url"
+                         value="tcp://localhost:61616?wireFormat.cacheEnabled=false&amp;wireFormat.tightEncodingEnabled=false&amp;wireFormat.maxInactivityDurationInitalDelay=30000&amp;jms.prefetchPolicy.all=1"/>
+            <cm:property name="amq.client.session.cache.size" value="10"/>
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${amq.connection.url}"/>
+        <property name="trustAllPackages" value="true"/>
+    </bean>
+
+    <bean id="amqPooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <property name="maxConnections" value="${amq.connection.maxConnections}"/>
+        <property name="connectionFactory" ref="amqConnectionFactory"/>
+    </bean>
+
+    <bean id="resourceManager" class="org.apache.activemq.pool.ActiveMQResourceManager" init-method="recoverResource">
+        <property name="connectionFactory" ref="amqConnectionFactory"/>
+        <property name="resourceName" value="activemq.default"/>
+    </bean>
+
+    <!-- Client pool config -->
+    <bean id="amqClientConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${amq.client.connection.url}"/>
+    </bean>
+
+    <!-- Service exposure -->
+    <service ref="amqPooledConnectionFactory" interface="javax.jms.ConnectionFactory">
+        <service-properties>
+            <entry key="issspol" value="true"/>
+        </service-properties>
+    </service>
+
+    <service ref="amqClientConnectionFactory" interface="javax.jms.ConnectionFactory">
+        <service-properties>
+            <entry key="isspol.client" value="true"/>
+        </service-properties>
+    </service>
+
+
+</blueprint>

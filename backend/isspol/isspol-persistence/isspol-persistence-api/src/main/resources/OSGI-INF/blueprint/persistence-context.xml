@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:jpa="http://aries.apache.org/xmlns/jpa/v1.1.0"
+           xmlns:tx="http://aries.apache.org/xmlns/transactions/v1.1.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+
+    <reference id="siisspolwebDS" interface="javax.sql.DataSource" filter="(dataSourceName=siisspolwebDS)" availability="mandatory"/>
+
+    <!-- DAOs -->
+    <bean id="estadoUsuarioDao" class="ec.org.isspol.persistence.dao.security.impl.EstadoUsuarioDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="horarioDao" class="ec.org.isspol.persistence.dao.security.impl.HorarioDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="oficinaDao" class="ec.org.isspol.persistence.dao.security.impl.OficinaDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="usuarioDao" class="ec.org.isspol.persistence.dao.security.impl.UsuarioDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="grupoDao" class="ec.org.isspol.persistence.dao.security.impl.GrupoDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="sucursalDao" class="ec.org.isspol.persistence.dao.security.impl.SucursalDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="estacionDao" class="ec.org.isspol.persistence.dao.security.impl.EstacionDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="estacionUsuarioDao" class="ec.org.isspol.persistence.dao.security.impl.EstacionUsuarioDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="grupoUsuarioDao" class="ec.org.isspol.persistence.dao.security.impl.GrupoUsuarioDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="estructuraOrganizacionalDao" class="ec.org.isspol.persistence.dao.security.impl.EstructuraOrganizacionalDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="nivelEstructuraOrgDao" class="ec.org.isspol.persistence.dao.security.impl.NivelEstructuraOrgDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="comunDao" class="ec.org.isspol.persistence.dao.comun.impl.ComunDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="parametroDao" class="ec.org.isspol.persistence.dao.comun.impl.ParametroDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="logNotificacionDao" class="ec.org.isspol.persistence.dao.comun.impl.LogNotificacionDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="procesoNotificacionDao" class="ec.org.isspol.persistence.dao.comun.impl.ProcesoNotificacionDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="tablaDao" class="ec.org.isspol.persistence.dao.auditoria.impl.TablaDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="opcionDao" class="ec.org.isspol.persistence.dao.security.impl.OpcionDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="carpetaOpcionDao" class="ec.org.isspol.persistence.dao.security.impl.CarpetaOpcionDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="iconoDao" class="ec.org.isspol.persistence.dao.security.impl.IconoDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="usuarioOficinaDao" class="ec.org.isspol.persistence.dao.security.impl.UsuarioOficinaDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="tokenDao" class="ec.org.isspol.persistence.dao.security.impl.TokenDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="provinciaDao" class="ec.org.isspol.persistence.dao.comun.impl.ProvinciaDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="cantonDao" class="ec.org.isspol.persistence.dao.comun.impl.CantonDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="tipoOficinaDao" class="ec.org.isspol.persistence.dao.security.impl.TipoOficinaDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="estadoDao" class="ec.org.isspol.persistence.dao.comun.impl.EstadoDaoImpl">
+        <jpa:context unitname="siisspolwebDS" property="entityManager"/>
+        <tx:transaction method="*" value="Required"/>
+    </bean>
+    <bean id="funcionProcedimientoAlmacenadoDao" class="ec.org.isspol.persistence.dao.procedimiento.impl.FuncionProcedimientoAlmacenadoDaoImpl">
+        <property name="dataSource" ref="siisspolwebDS"/>
+    </bean>
+
+
+    <!-- Services -->
+    <bean id="usuarioSvc" class="ec.org.isspol.persistence.service.security.impl.UsuarioSvcImpl">
+        <property name="usuarioDao" ref="usuarioDao"/>
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="estadoUsuarioSvc" class="ec.org.isspol.persistence.service.security.impl.EstadoUsuarioSvcImpl">
+        <property name="estadoUsuarioDao" ref="estadoUsuarioDao"/>
+    </bean>
+    <bean id="horarioSvc" class="ec.org.isspol.persistence.service.security.impl.HorarioSvcImpl">
+        <property name="horarioDao" ref="horarioDao"/>
+    </bean>
+    <bean id="oficinaSvc" class="ec.org.isspol.persistence.service.security.impl.OficinaSvcImpl">
+        <property name="oficinaDao" ref="oficinaDao"/>
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="grupoSvc" class="ec.org.isspol.persistence.service.security.impl.GrupoSvcImpl">
+        <property name="grupoDao" ref="grupoDao"/>
+    </bean>
+    <bean id="sucursalSvc" class="ec.org.isspol.persistence.service.security.impl.SucursalSvcImpl">
+        <property name="sucursalDao" ref="sucursalDao"/>
+    </bean>
+    <bean id="estacionSvc" class="ec.org.isspol.persistence.service.security.impl.EstacionSvcImpl">
+        <property name="estacionDao" ref="estacionDao"/>
+    </bean>
+    <bean id="estacionUsuarioSvc" class="ec.org.isspol.persistence.service.security.impl.EstacionUsuarioSvcImpl">
+        <property name="estacionUsuarioDao" ref="estacionUsuarioDao"/>
+    </bean>
+    <bean id="grupoUsuarioSvc" class="ec.org.isspol.persistence.service.security.impl.GrupoUsuarioSvcImpl">
+        <property name="grupoUsuarioDao" ref="grupoUsuarioDao"/>
+    </bean>
+    <bean id="estructuraOrganizacionalSvc" class="ec.org.isspol.persistence.service.security.impl.EstructuraOrganizacionalSvcImpl">
+        <property name="estructuraOrganizacionalDao" ref="estructuraOrganizacionalDao"/>
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="nivelEstructuraOrgSvc" class="ec.org.isspol.persistence.service.security.impl.NivelEstructuraOrgSvcImpl">
+        <property name="nivelEstructuraOrgDao" ref="nivelEstructuraOrgDao"/>
+    </bean>
+    <bean id="comunSvc" class="ec.org.isspol.persistence.service.comun.impl.ComunSvcImpl">
+        <property name="comunDao" ref="comunDao"/>
+        <property name="provinciaDao" ref ="provinciaDao"/>
+        <property name="cantonDao" ref = "cantonDao"/>
+        <property name="estadoDao" ref = "estadoDao"/>
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="parametroSvc" class="ec.org.isspol.persistence.service.comun.impl.ParametroSvcImpl">
+        <property name="parametroDao" ref="parametroDao"/>
+    </bean>
+    <bean id="logNotificacionSvc" class="ec.org.isspol.persistence.service.comun.impl.LogNotificacionSvcImpl">
+        <property name="logNotificacionDao" ref="logNotificacionDao"/>
+    </bean>
+    <bean id="procesoNotificacionSvc" class="ec.org.isspol.persistence.service.comun.impl.ProcesoNotificacionSvcImpl">
+        <property name="procesoNotificacionDao" ref="procesoNotificacionDao"/>
+    </bean>
+    <bean id="tablaSvc" class="ec.org.isspol.persistence.service.auditoria.impl.TablaSvcImpl">
+        <property name="tablaDao" ref="tablaDao"/>
+    </bean>
+    <bean id="opcionSvc" class="ec.org.isspol.persistence.service.security.impl.OpcionSvcImpl">
+        <property name="opcionDao" ref="opcionDao"/>
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="carpetaOpcionSvc" class="ec.org.isspol.persistence.service.security.impl.CarpetaOpcionSvcImpl">
+        <property name="carpetaOpcionDao" ref="carpetaOpcionDao"/>
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="iconoSvc" class="ec.org.isspol.persistence.service.security.impl.IconoSvcImpl">
+        <property name="iconoDao" ref="iconoDao"/>
+    </bean>
+	<bean id="usuarioOficinaSvc" class="ec.org.isspol.persistence.service.security.impl.UsuarioOficinaSvcImpl">
+        <property name="usuarioOficinaDao" ref="usuarioOficinaDao"/>
+    </bean>
+    <bean id="tokenSvc" class="ec.org.isspol.persistence.service.security.impl.TokenSvcImpl">
+        <property name="tokenDao" ref="tokenDao"/>
+    </bean>
+    <bean id="logSvc" class="ec.org.isspol.persistence.service.auditoria.impl.LogSvcImpl">
+        <property name="funcionProcedimientoAlmacenadoDao" ref="funcionProcedimientoAlmacenadoDao"/>
+    </bean>
+    <bean id="tipoOficinaSvc" class="ec.org.isspol.persistence.service.security.impl.TipoOficinaSvcImpl">
+        <property name="tipoOficinaDao" ref="tipoOficinaDao"/>
+    </bean>
+
+
+    <service ref="usuarioSvc" interface="ec.org.isspol.persistence.service.security.UsuarioSvc"/>
+    <service ref="estadoUsuarioSvc" interface="ec.org.isspol.persistence.service.security.EstadoUsuarioSvc"/>
+    <service ref="horarioSvc" interface="ec.org.isspol.persistence.service.security.HorarioSvc"/>
+    <service ref="oficinaSvc" interface="ec.org.isspol.persistence.service.security.OficinaSvc"/>
+    <service ref="grupoSvc" interface="ec.org.isspol.persistence.service.security.GrupoSvc"/>
+    <service ref="sucursalSvc" interface="ec.org.isspol.persistence.service.security.SucursalSvc"/>
+    <service ref="estacionSvc" interface="ec.org.isspol.persistence.service.security.EstacionSvc"/>
+    <service ref="estacionUsuarioSvc" interface="ec.org.isspol.persistence.service.security.EstacionUsuarioSvc"/>
+    <service ref="grupoUsuarioSvc" interface="ec.org.isspol.persistence.service.security.GrupoUsuarioSvc"/>
+    <service ref="estructuraOrganizacionalSvc" interface="ec.org.isspol.persistence.service.security.EstructuraOrganizacionalSvc"/>
+    <service ref="nivelEstructuraOrgSvc" interface="ec.org.isspol.persistence.service.security.NivelEstructuraOrgSvc"/>
+    <service ref="comunSvc" interface="ec.org.isspol.persistence.service.comun.ComunSvc"/>
+    <service ref="parametroSvc" interface="ec.org.isspol.persistence.service.comun.ParametroSvc"/>
+    <service ref="logNotificacionSvc" interface="ec.org.isspol.persistence.service.comun.LogNotificacionSvc"/>
+    <service ref="procesoNotificacionSvc" interface="ec.org.isspol.persistence.service.comun.ProcesoNotificacionSvc"/>
+    <service ref="tablaSvc" interface="ec.org.isspol.persistence.service.auditoria.TablaSvc"/>
+    <service ref="opcionSvc" interface="ec.org.isspol.persistence.service.security.OpcionSvc"/>
+    <service ref="carpetaOpcionSvc" interface="ec.org.isspol.persistence.service.security.CarpetaOpcionSvc"/>
+    <service ref="iconoSvc" interface="ec.org.isspol.persistence.service.security.IconoSvc"/>
+    <service ref="usuarioOficinaSvc" interface="ec.org.isspol.persistence.service.security.UsuarioOficinaSvc"/>
+    <service ref="tokenSvc" interface="ec.org.isspol.persistence.service.security.TokenSvc"/>
+    <service ref="tipoOficinaSvc" interface="ec.org.isspol.persistence.service.security.TipoOficinaSvc"/>
+    <service ref="logSvc" interface="ec.org.isspol.persistence.service.auditoria.LogSvc"/>
+</blueprint>

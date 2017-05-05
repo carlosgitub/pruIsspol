@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="isspol-web-test" >
+        <!--Esquema Comun-->
+        <class>ec.org.isspol.persistence.entities.auditoria.Columna</class>
+        <class>ec.org.isspol.persistence.entities.auditoria.Log</class>
+        <class>ec.org.isspol.persistence.entities.auditoria.Rastro</class>
+        <class>ec.org.isspol.persistence.entities.auditoria.RastroDetalle</class>
+        <class>ec.org.isspol.persistence.entities.auditoria.RastroPk</class>
+        <class>ec.org.isspol.persistence.entities.auditoria.Tabla</class>
+        <class>ec.org.isspol.persistence.entities.auditoria.TipoLog</class>
+        <!--Esquema Comun-->
+        <class>ec.org.isspol.persistence.entities.comun.Ambiente</class>
+        <class>ec.org.isspol.persistence.entities.comun.Banco</class>
+        <class>ec.org.isspol.persistence.entities.comun.Canton</class>
+        <class>ec.org.isspol.persistence.entities.comun.Ciudad</class>
+        <class>ec.org.isspol.persistence.entities.comun.ControlGui</class>
+        <class>ec.org.isspol.persistence.entities.comun.DenominacionMoneda</class>
+        <class>ec.org.isspol.persistence.entities.comun.DiaMes</class>
+        <class>ec.org.isspol.persistence.entities.comun.Empresa</class>
+        <class>ec.org.isspol.persistence.entities.comun.Estado</class>
+        <class>ec.org.isspol.persistence.entities.comun.Feriado</class>
+        <class>ec.org.isspol.persistence.entities.comun.FeriadoOficina</class>
+        <class>ec.org.isspol.persistence.entities.comun.GrupoPar</class>
+        <class>ec.org.isspol.persistence.entities.comun.LogNotificacion</class>
+        <class>ec.org.isspol.persistence.entities.comun.Idioma</class>
+        <class>ec.org.isspol.persistence.entities.comun.Mensaje</class>
+        <class>ec.org.isspol.persistence.entities.comun.MensajeIdioma</class>
+        <class>ec.org.isspol.persistence.entities.comun.Moneda</class>
+        <class>ec.org.isspol.persistence.entities.comun.MultiEmpresa</class>
+        <class>ec.org.isspol.persistence.entities.comun.Nacionalidad</class>
+        <class>ec.org.isspol.persistence.entities.comun.Notificacion</class>
+        <class>ec.org.isspol.persistence.entities.comun.Novedad</class>
+        <class>ec.org.isspol.persistence.entities.comun.Objeto</class>
+        <class>ec.org.isspol.persistence.entities.comun.ObjetoValida</class>
+        <class>ec.org.isspol.persistence.entities.comun.Pais</class>
+        <class>ec.org.isspol.persistence.entities.comun.Parametro</class>
+        <class>ec.org.isspol.persistence.entities.comun.Parroquia</class>
+        <class>ec.org.isspol.persistence.entities.comun.ProcesoNotificacion</class>
+        <class>ec.org.isspol.persistence.entities.comun.Provincia</class>
+        <class>ec.org.isspol.persistence.entities.comun.Rango</class>
+        <class>ec.org.isspol.persistence.entities.comun.RangoDetalle</class>
+        <class>ec.org.isspol.persistence.entities.comun.Region</class>
+        <class>ec.org.isspol.persistence.entities.comun.Secuencial</class>
+        <class>ec.org.isspol.persistence.entities.comun.SemanaLaborable</class>
+        <class>ec.org.isspol.persistence.entities.comun.Sistema</class>
+        <class>ec.org.isspol.persistence.entities.comun.SistemaAmbiente</class>
+        <class>ec.org.isspol.persistence.entities.comun.TipoAcceso</class>
+        <class>ec.org.isspol.persistence.entities.comun.TipoControl</class>
+        <class>ec.org.isspol.persistence.entities.comun.TipoDenominacionMoneda</class>
+        <class>ec.org.isspol.persistence.entities.comun.TipoNotificacion</class>
+        <class>ec.org.isspol.persistence.entities.comun.TipoUbicacionGeografica</class>
+        <class>ec.org.isspol.persistence.entities.comun.UbicacionGeografica</class>
+        <class>ec.org.isspol.persistence.entities.comun.UbicacionGeograficaMigracion</class>
+        <class>ec.org.isspol.persistence.entities.comun.Version</class>
+
+        <!--Esquema Persona-->
+        <class>ec.org.isspol.persistence.entities.persona.Invalides</class>
+        <class>ec.org.isspol.persistence.entities.persona.Unidad</class>
+        <class>ec.org.isspol.persistence.entities.persona.VidaInstitucional</class>
+        <class>ec.org.isspol.persistence.entities.persona.OrigenDiscapacidad</class>
+        <class>ec.org.isspol.persistence.entities.persona.Pasantia</class>
+        <class>ec.org.isspol.persistence.entities.persona.Persona</class>
+        <class>ec.org.isspol.persistence.entities.persona.CuentaBancaria</class>
+        <class>ec.org.isspol.persistence.entities.persona.NovedadSuperior</class>
+        <class>ec.org.isspol.persistence.entities.persona.TipoTramite</class>
+        <class>ec.org.isspol.persistence.entities.persona.Cuenta</class>
+        <class>ec.org.isspol.persistence.entities.persona.Poder</class>
+        <class>ec.org.isspol.persistence.entities.persona.Supervivencia</class>
+        <class>ec.org.isspol.persistence.entities.persona.DependienteNovedad</class>
+        <class>ec.org.isspol.persistence.entities.persona.Fallecido</class>
+        <class>ec.org.isspol.persistence.entities.persona.Montepio</class>
+        <class>ec.org.isspol.persistence.entities.persona.TipoCuentaBancaria</class>
+        <class>ec.org.isspol.persistence.entities.persona.TipoSexo</class>
+        <class>ec.org.isspol.persistence.entities.persona.TipoDiscapacidad</class>
+        <class>ec.org.isspol.persistence.entities.persona.TipoNovedad</class>
+        <class>ec.org.isspol.persistence.entities.persona.TipoSubtipoAfiliacion</class>
+        <class>ec.org.isspol.persistence.entities.persona.Jerarquia</class>
+        <class>ec.org.isspol.persistence.entities.persona.SeguroBeneficiario</class>
+        <class>ec.org.isspol.persistence.entities.persona.TipoAfiliacion</class>
+        <class>ec.org.isspol.persistence.entities.persona.Plaza</class>
+        <class>ec.org.isspol.persistence.entities.persona.Plica</class>
+        <class>ec.org.isspol.persistence.entities.persona.SupervivenciaNovedad</class>
+        <class>ec.org.isspol.persistence.entities.persona.PlazaActivo</class>
+        <class>ec.org.isspol.persistence.entities.persona.CausantePension</class>
+        <class>ec.org.isspol.persistence.entities.persona.PersonaTipoSubtipo</class>
+        <class>ec.org.isspol.persistence.entities.persona.Bloqueo</class>
+        <class>ec.org.isspol.persistence.entities.persona.Lugar</class>
+        <class>ec.org.isspol.persistence.entities.persona.TipoDocumento</class>
+        <class>ec.org.isspol.persistence.entities.persona.Seguro</class>
+        <class>ec.org.isspol.persistence.entities.persona.Direccion</class>
+        <class>ec.org.isspol.persistence.entities.persona.TipoPlica</class>
+        <class>ec.org.isspol.persistence.entities.persona.Carpeta</class>
+        <class>ec.org.isspol.persistence.entities.persona.Parentesco</class>
+        <class>ec.org.isspol.persistence.entities.persona.TipoPolicia</class>
+        <class>ec.org.isspol.persistence.entities.persona.Departamento</class>
+        <class>ec.org.isspol.persistence.entities.persona.TipoCuenta</class>
+        <class>ec.org.isspol.persistence.entities.persona.Grado</class>
+        <class>ec.org.isspol.persistence.entities.persona.SubtipoAfiliacion</class>
+        <class>ec.org.isspol.persistence.entities.persona.EstadoCivil</class>
+        <class>ec.org.isspol.persistence.entities.persona.Dependiente</class>
+        <class>ec.org.isspol.persistence.entities.persona.TipoPersona</class>
+
+        <!--Esquema Seguridad-->
+        <class>ec.org.isspol.persistence.entities.security.CarpetaOpcion</class>
+        <class>ec.org.isspol.persistence.entities.security.Estacion</class>
+        <class>ec.org.isspol.persistence.entities.security.EstacionUsuario</class>
+        <class>ec.org.isspol.persistence.entities.security.EstadoUsuario</class>
+        <class>ec.org.isspol.persistence.entities.security.EstructuraOrganizacional</class>
+        <class>ec.org.isspol.persistence.entities.security.Favorito</class>
+        <class>ec.org.isspol.persistence.entities.security.Grupo</class>
+        <class>ec.org.isspol.persistence.entities.security.GrupoModulo</class>
+        <class>ec.org.isspol.persistence.entities.security.GrupoUsuario</class>
+        <class>ec.org.isspol.persistence.entities.security.HistClave</class>
+        <class>ec.org.isspol.persistence.entities.security.Horario</class>
+        <class>ec.org.isspol.persistence.entities.security.HorarioDetalle</class>
+        <class>ec.org.isspol.persistence.entities.security.Icono</class>
+        <class>ec.org.isspol.persistence.entities.security.ImpresoraEstacion</class>
+        <class>ec.org.isspol.persistence.entities.security.Impresora</class>
+        <class>ec.org.isspol.persistence.entities.security.Modulo</class>
+        <class>ec.org.isspol.persistence.entities.security.MotivoCierreSesion</class>
+        <class>ec.org.isspol.persistence.entities.security.NivelEstructuraOrg</class>
+        <class>ec.org.isspol.persistence.entities.security.Oficina</class>
+        <class>ec.org.isspol.persistence.entities.security.Opcion</class>
+        <class>ec.org.isspol.persistence.entities.security.OpcionUso</class>
+        <class>ec.org.isspol.persistence.entities.security.Permiso</class>
+        <class>ec.org.isspol.persistence.entities.security.Proceso</class>
+        <class>ec.org.isspol.persistence.entities.security.SesionUsuario</class>
+        <class>ec.org.isspol.persistence.entities.security.Sucursal</class>
+        <class>ec.org.isspol.persistence.entities.security.TipoEvento</class>
+        <class>ec.org.isspol.persistence.entities.security.TipoOficina</class>
+        <class>ec.org.isspol.persistence.entities.security.TipoToken</class>
+        <class>ec.org.isspol.persistence.entities.security.Token</class>
+        <class>ec.org.isspol.persistence.entities.security.Usuario</class>
+        <class>ec.org.isspol.persistence.entities.security.UsuarioCambio</class>
+        <class>ec.org.isspol.persistence.entities.security.UsuarioOficina</class>
+        <class>ec.org.isspol.persistence.entities.security.UsuarioUbicacionGeografica</class>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>

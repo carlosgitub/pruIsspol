@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>isspol-routes</artifactId>
+        <groupId>ec.org.isspol</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>isspol-route-client-seguridad</artifactId>
+    <name>ISSPOL :: Backend Route Client Seguridad</name>
+    <packaging>bundle</packaging>
+
+    <properties>
+        <isspol.osgi.export.pkg>
+            ec.org.isspol.route.client.seguridad,
+            ec.org.isspol.route.client.comun,
+            ec.org.isspol.route.client.auditoria,
+            ec.org.isspol.route.client.context,
+            ec.org.isspol.persistence.entities.security,
+            ec.org.isspol.persistence.entities.security.dto,
+            ec.org.isspol.persistence.entities.persona,
+            ec.org.isspol.persistence.entities.comun,
+            ec.org.isspol.persistence.entities.auditoria,
+            ec.org.isspol.route.security.service,
+            ec.org.isspol.route.comun.service,
+            ec.org.isspol.route.auditoria.service,
+            ec.org.isspol.common
+        </isspol.osgi.export.pkg>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>ec.org.isspol</groupId>
+            <artifactId>isspol-route-seguridad</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ec.org.isspol</groupId>
+            <artifactId>isspol-route-comun</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ec.org.isspol</groupId>
+            <artifactId>isspol-route-auditoria</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ec.org.isspol</groupId>
+            <artifactId>isspol-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core</artifactId>
+            <version>2.18.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-spring</artifactId>
+            <version>2.18.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jms</artifactId>
+            <version>2.18.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-camel</artifactId>
+            <!-- se cambia la version por que la fuse es vieja y no permite trustAllPackages -->
+            <version>5.14.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-pool</artifactId>
+            <!-- se cambia la version por que la fuse es vieja y no permite trustAllPackages -->
+            <version>5.14.0</version>
+        </dependency>
+
+        <!-- xbean is needed for ActiveMQ broker XML configuration in Spring XML files -->
+        <dependency>
+            <groupId>org.apache.xbean</groupId>
+            <artifactId>xbean-spring</artifactId>
+            <version>3.18</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-test-spring</artifactId>
+            <version>2.18.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

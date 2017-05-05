@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<features>
+
+    <repository>mvn:org.ops4j.pax.jdbc/pax-jdbc-features/${pax-jdbc.version}/xml/features</repository>
+
+    <feature name="persistence-isspol" version="${project.version}">
+        <feature>transaction</feature>
+        <feature>jndi</feature>
+        <bundle>mvn:ec.org.isspol/sqljdbc/${project.version}</bundle>
+        <feature>pax-jdbc-config</feature>
+        <feature>pax-jdbc-mssql</feature>
+        <feature>pax-jdbc-pool-dbcp2</feature>
+        <feature>jpa</feature>
+        <feature>hibernate</feature>
+        <bundle>mvn:ec.org.isspol/isspol-persistence-model/${project.version}</bundle>
+    </feature>
+
+</features>
